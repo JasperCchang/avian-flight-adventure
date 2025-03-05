@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk6ftf2op0l1j"]
+
+[ext_resource type="Script" path="res://mediapipe.gd" id="1_lc1y2"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_wdm2r"]
+
+[node name="Mediapipe" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lc1y2")
+
+[node name="Image" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -432.0
+offset_top = -324.0
+offset_right = 432.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("ImageTexture_wdm2r")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PermissionDialog" type="AcceptDialog" parent="."]
+
+[node name="CameraTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="CameraTimer" to="." method="_on_camera_timer_timeout"]

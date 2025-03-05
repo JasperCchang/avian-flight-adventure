@@ -1,0 +1,42 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="godot4_1_base_minigame"
+config/description="Demo project for GDMP plugin"
+run/main_scene="res://Scenes/mediapipe.tscn"
+config/features=PackedStringArray("4.1", "Mobile")
+config/icon="res://icon.svg"
+
+[autoload]
+
+GlobalSignal="*res://Global Signal/GlobalSignal.gd"
+
+[display]
+
+window/stretch/mode="viewport"
+
+[dotnet]
+
+project/assembly_name="GDMP Demo"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GDMP/plugin.cfg")
+
+[native_extensions]
+
+paths=["res://addons/GDMP/GDMP.gdextension"]
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
