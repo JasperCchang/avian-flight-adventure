@@ -1,0 +1,248 @@
+[gd_scene load_steps=22 format=3 uid="uid://cm0oc5ji6didv"]
+
+[ext_resource type="Script" path="res://game_control/game.gd" id="1_ncuw8"]
+[ext_resource type="PackedScene" uid="uid://c8y8mbdhsofed" path="res://weather/weather.tscn" id="2_ku5l8"]
+[ext_resource type="PackedScene" uid="uid://cu6crvv2rxsjq" path="res://bird/bird.tscn" id="2_xhagn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yf7mm"]
+
+[sub_resource type="Sky" id="Sky_30jqi"]
+sky_material = SubResource("ProceduralSkyMaterial_yf7mm")
+
+[sub_resource type="Environment" id="Environment_gq6it"]
+background_mode = 2
+sky = SubResource("Sky_30jqi")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1x5bj"]
+size = Vector3(201.61, 26, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cr6nj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5ayfy"]
+material = SubResource("StandardMaterial3D_cr6nj")
+size = Vector3(220, 25, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kjq42"]
+size = Vector3(201.61, 1.36662, 69.7391)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yoy5y"]
+material = SubResource("StandardMaterial3D_cr6nj")
+size = Vector3(220, 1, 60)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ae8bs"]
+size = Vector3(3.48933, 26.1292, 69.7391)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g8kbr"]
+material = SubResource("StandardMaterial3D_cr6nj")
+size = Vector3(1, 40, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cqom4"]
+albedo_color = Color(0, 0, 0, 1)
+billboard_mode = 2
+
+[sub_resource type="TextMesh" id="TextMesh_vlksk"]
+material = SubResource("StandardMaterial3D_cqom4")
+text = "level 1"
+font_size = 20
+uppercase = true
+pixel_size = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_2n1wi"]
+size = Vector3(5, 5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d58x2"]
+albedo_color = Color(0, 0, 0, 1)
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="TextMesh" id="TextMesh_pqyri"]
+material = SubResource("StandardMaterial3D_d58x2")
+text = "Check 
+point 
+1"
+font_size = 30
+uppercase = true
+pixel_size = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dt2sg"]
+size = Vector3(6, 5.62646, 6)
+
+[sub_resource type="TextMesh" id="TextMesh_ksx2v"]
+material = SubResource("StandardMaterial3D_d58x2")
+text = "Check 
+point 
+2"
+font_size = 30
+uppercase = true
+pixel_size = 0.05
+
+[sub_resource type="TextMesh" id="TextMesh_yoloj"]
+material = SubResource("StandardMaterial3D_d58x2")
+text = "Check 
+point 
+3"
+font_size = 30
+uppercase = true
+pixel_size = 0.05
+
+[node name="Game" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+script = ExtResource("1_ncuw8")
+_cloud = ExtResource("2_ku5l8")
+
+[node name="back_cam1" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -25, 10, 0)
+
+[node name="bird" parent="." instance=ExtResource("2_xhagn")]
+
+[node name="back_cam2" type="Camera3D" parent="bird"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -25, 0, 0)
+current = true
+
+[node name="SpringArm3D" type="SpringArm3D" parent="bird"]
+spring_length = 3.0
+
+[node name="back_cam3" type="Camera3D" parent="bird/SpringArm3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -25, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gq6it")
+
+[node name="walls" type="Node3D" parent="."]
+
+[node name="wall1" type="StaticBody3D" parent="walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/wall1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.305, 9.14245, 0)
+shape = SubResource("BoxShape3D_1x5bj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/wall1/CollisionShape3D"]
+visible = false
+mesh = SubResource("BoxMesh_5ayfy")
+skeleton = NodePath("../..")
+
+[node name="wall2" type="StaticBody3D" parent="walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/wall2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.305, 9, 0)
+shape = SubResource("BoxShape3D_1x5bj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/wall2/CollisionShape3D"]
+visible = false
+mesh = SubResource("BoxMesh_5ayfy")
+skeleton = NodePath("../..")
+
+[node name="floor" type="Area3D" parent="walls"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.305, -3, 0)
+shape = SubResource("BoxShape3D_kjq42")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/floor/CollisionShape3D"]
+mesh = SubResource("BoxMesh_yoy5y")
+skeleton = NodePath("../..")
+
+[node name="wall4" type="StaticBody3D" parent="walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/wall4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.305, -3, 0)
+shape = SubResource("BoxShape3D_kjq42")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/wall4/CollisionShape3D"]
+visible = false
+mesh = SubResource("BoxMesh_yoy5y")
+skeleton = NodePath("../..")
+
+[node name="level" type="Node3D" parent="."]
+
+[node name="start_point" type="Node3D" parent="level"]
+
+[node name="end" type="Area3D" parent="level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 10, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="level/end"]
+shape = SubResource("BoxShape3D_ae8bs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="level/end/CollisionShape3D"]
+mesh = SubResource("BoxMesh_g8kbr")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="level/end"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2, 0, 0)
+mesh = SubResource("TextMesh_vlksk")
+
+[node name="level1" type="MeshInstance3D" parent="level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 1, -15)
+mesh = SubResource("BoxMesh_2n1wi")
+skeleton = NodePath("level1/CollisionShape3D")
+
+[node name="text" type="MeshInstance3D" parent="level/level1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+mesh = SubResource("TextMesh_pqyri")
+skeleton = NodePath("../level1")
+
+[node name="level1" type="Area3D" parent="level/level1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="level/level1/level1"]
+shape = SubResource("BoxShape3D_dt2sg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="level/level1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="level/level1/StaticBody3D"]
+transform = Transform3D(0.89, 0, 0, 0, 0.89, 0, 0, 0, 0.89, 0, 0, 0)
+shape = SubResource("BoxShape3D_dt2sg")
+
+[node name="level2" type="MeshInstance3D" parent="level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 1, 15)
+mesh = SubResource("BoxMesh_2n1wi")
+skeleton = NodePath("level2/CollisionShape3D")
+
+[node name="text" type="MeshInstance3D" parent="level/level2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+mesh = SubResource("TextMesh_ksx2v")
+skeleton = NodePath("../level2")
+
+[node name="level2" type="Area3D" parent="level/level2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="level/level2/level2"]
+shape = SubResource("BoxShape3D_dt2sg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="level/level2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="level/level2/StaticBody3D"]
+transform = Transform3D(0.89, 0, 0, 0, 0.89, 0, 0, 0, 0.89, 0, 0, 0)
+shape = SubResource("BoxShape3D_dt2sg")
+
+[node name="level3" type="MeshInstance3D" parent="level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 1, -15)
+mesh = SubResource("BoxMesh_2n1wi")
+skeleton = NodePath("level3/CollisionShape3D")
+
+[node name="text" type="MeshInstance3D" parent="level/level3"]
+transform = Transform3D(1.00286, 0, 0, 0, 1.00286, 0, 0, 0, 1.00286, 0, 6, 0)
+mesh = SubResource("TextMesh_yoloj")
+skeleton = NodePath("../level3")
+
+[node name="level3" type="Area3D" parent="level/level3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="level/level3/level3"]
+shape = SubResource("BoxShape3D_dt2sg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="level/level3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="level/level3/StaticBody3D"]
+transform = Transform3D(0.89, 0, 0, 0, 0.89, 0, 0, 0, 0.89, 0, 0, 0)
+shape = SubResource("BoxShape3D_dt2sg")
+
+[node name="bad_weather" type="Node3D" parent="."]
+
+[connection signal="area_entered" from="walls/floor" to="." method="_on_floor_area_entered"]
+[connection signal="area_entered" from="level/end" to="." method="_on_end_area_entered"]
+[connection signal="area_entered" from="level/level1/level1" to="." method="_on_level_1_area_entered"]
+[connection signal="area_entered" from="level/level2/level2" to="." method="_on_level_2_area_entered"]
+[connection signal="area_entered" from="level/level3/level3" to="." method="_on_level_3_area_entered"]

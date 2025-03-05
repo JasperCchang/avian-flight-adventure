@@ -1,0 +1,69 @@
+[gd_scene load_steps=5 format=3 uid="uid://llr0p0l6ici2"]
+
+[ext_resource type="Script" path="res://ui/menu_ui/menu_ui.gd" id="1_7i0oa"]
+[ext_resource type="Texture2D" uid="uid://83bljeaxkkua" path="res://assets/ui_materials/Group 28 (1).png" id="2_0dx7h"]
+[ext_resource type="Texture2D" uid="uid://dr8hh3ye0oscs" path="res://assets/ui_materials/Group 29 (1).png" id="3_jh5dj"]
+[ext_resource type="Texture2D" uid="uid://dbjrtrpd12hhp" path="res://assets/ui_materials/Group 30 (1).png" id="4_66h8j"]
+
+[node name="Menu_UI" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7i0oa")
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -155.5
+offset_top = -201.0
+offset_right = 155.5
+offset_bottom = 201.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -449.5
+offset_top = -237.0
+offset_right = 449.5
+offset_bottom = 237.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="level1" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+icon = ExtResource("2_0dx7h")
+flat = true
+icon_alignment = 1
+
+[node name="level2" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+icon = ExtResource("3_jh5dj")
+flat = true
+
+[node name="level3" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+icon = ExtResource("4_66h8j")
+flat = true
+icon_alignment = 1
+
+[connection signal="pressed" from="Panel/VBoxContainer/level1" to="." method="_on_level_1_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/level2" to="." method="_on_level_2_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/level3" to="." method="_on_level_3_pressed"]
