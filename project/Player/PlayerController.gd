@@ -15,7 +15,8 @@ var throttle_delta:float = 30
 # Acceleration/deceleration
 var acceleration:float = 0.2
 
-
+var rotation_reset_speed: float = 0.75
+var resetting_rotation: bool = false
 
 # Current speed
 var forward_speed:float = 0
@@ -29,10 +30,13 @@ var grounded = false
 var turn_input:float = 0
 var max_turn_input: float = 0.75
 var pitch_input:float = 0
-var max_pitch_input: float = 0.5
+var max_pitch_input: float = 1
+# Store the initial rotation of the bird
+var initial_rotation: Basis
 
 func _ready():
-	pass
+	# Save the initial rotation of the bird
+	initial_rotation = transform.basis
 
 func _physics_process(delta):
 	var pitch_axis = transform.basis.x.normalized()
@@ -64,6 +68,18 @@ func _physics_process(delta):
 #		grounded = false
 
 	move_and_slide()
+		# Reset only the pitch (X rotation)
+	var current_rotation = transform.basis
+	var current_euler = current_rotation.get_euler()
+	var target_pitch = initial_rotation.get_euler().x  # Keep the initial pitch
+		
+		# Construct a new Basis with the target pitch and current yaw and roll
+	var new_basis = Basis().rotated(Vector3.RIGHT, target_pitch) * Basis().rotated(Vector3.UP, current_euler.y) * Basis().rotated(Vector3.FORWARD, current_euler.z)
+		
+	transform.basis = current_rotation.slerp(new_basis, rotation_reset_speed * delta)
+		
+	if current_rotation.x == new_basis.x:
+		resetting_rotation = false
 
 func get_input(delta):
 	# Throttle input
@@ -85,22 +101,33 @@ func get_input(delta):
 		pitch_input += Input.get_action_strength("pitch_up")
 
 func turnLeft():
-	print('Signal Recieved, turning left')
+	resetting_rotation = false
+	#print('Signal Recieved, turning left')
 	if forward_speed > 0.5:
 		turn_input += 0.75
+		pitch_input = 0
 func turnRight():
+	resetting_rotation = false
 	if forward_speed > 0.5:
 		turn_input -= 0.75
+		pitch_input = 0
 
 func resetInput():
 	turn_input = 0
 	pitch_input = 0
+	resetRotation()
 
 func pitchUp():
 	pitch_input += 0.5
+	turn_input = 0
 
 func pitchDown():
 	pitch_input -= 0.5
+	turn_input = 0
+
+func resetRotation():
+	resetting_rotation = true
+
 
 func _on_tree_entered():
 	GlobalSignal.Tpose_Left_Signal.connect(turnLeft)
@@ -109,6 +136,7 @@ func _on_tree_entered():
 	GlobalSignal.Arms_Up_Signal.connect(pitchUp)
 	GlobalSignal.Arms_In_Signal.connect(pitchDown)
 	GlobalSignal.Idle_Pose_Signal.connect(resetInput)
+	#GlobalSignal.NoPose.connect(resetRotation)
 
 
 func _on_tree_exited():
@@ -118,3 +146,4 @@ func _on_tree_exited():
 	GlobalSignal.Tpose_Signal.disconnect(resetInput)
 	GlobalSignal.Arms_Up_Signal.disconnect(pitchUp)
 	GlobalSignal.Arms_In_Signal.disconnect(pitchDown)
+	GlobalSignal.NoPose.disconnect(resetRotation)

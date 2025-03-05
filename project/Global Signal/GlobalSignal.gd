@@ -6,3 +6,4 @@ signal Tpose_Right_Signal
 signal Arms_In_Signal
 signal Arms_Up_Signal
 signal Idle_Pose_Signal
+signal NoPose

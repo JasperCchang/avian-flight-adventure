@@ -67,6 +67,7 @@ func ContinuousPoseMatching(landmark_coords: Dictionary):
 			var signal_name = pose.title + '_Signal'
 			call_deferred("_emit_signal", signal_name)
 		else:
+			call_deferred("_emit_signal", 'NoPose')
 			pass
 
 func update_label_text(pose: Pose):
