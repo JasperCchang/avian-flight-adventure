@@ -105,4 +105,3 @@ func reset_cam_rotation(delta) -> void:
 		rotation.x = lerp(rotation.x, -10 * delta, delta)
 	elif rotation.x < 0:
 		rotation.x = lerp(rotation.x, 10 * delta, delta)
-

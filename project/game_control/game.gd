@@ -1,7 +1,7 @@
 extends Node3D
 @onready var back_cam_1 = $back_cam1
 
-@onready var birdArea: Area3D = $bird/Area3D
+@onready var birdArea: Area3D = $bird/bird_area
 @onready var bird: CharacterBody3D = $bird
 
 @onready var level_text: MeshInstance3D = $level/end/MeshInstance3D
@@ -46,20 +46,23 @@ func spwan_clouds():
 	while  clouds_to_spawn >= 0:
 		clouds_to_spawn -= 1
 		
-		var x : float = end_point.position.x - 2
+		var x : float = randf_range(bird.position.x + 30, bird.position.x + 40)
 		var y : float = randf_range(end_point_mesh.mesh.size.y / 2 , -end_point_mesh.mesh.size.y / 2)
 		var z : float = randf_range(end_point_mesh.mesh.size.z / 2 , -end_point_mesh.mesh.size.z / 2)
 		
 		var spawn_pos : Vector3 = Vector3(x, y, z)
-		
+			
 		var cloud := _cloud.instantiate()
 		bad_weather.add_child(cloud)
+		cloud.connect("area_entered", self._on_weather_area_entered)
 		cloud.global_position = self.global_position + spawn_pos
+
+		await get_tree().create_timer(randf_range(0.5,1)).timeout
 
 func _on_end_area_entered(area: Area3D) -> void:
 	if area == birdArea:
 		print("end")
-		bird.moving_distance = 0
+		restart()
 
 func _on_level_1_area_entered(area: Area3D) -> void:
 	if area == birdArea:
@@ -78,9 +81,16 @@ func _on_level_3_area_entered(area: Area3D) -> void:
 		print("level 3")
 		level_text.mesh.text = "End"
 
-
-func _on_floor_area_entered(area):
+func _on_floor_area_entered(area: Area3D):
 	if area == birdArea:
 		print("DIE")
 		level_text.mesh.text = "Die"
-		get_tree().reload_current_scene()
+		restart()
+
+func restart() -> void:
+	get_tree().reload_current_scene()
+
+
+func _on_weather_area_entered(area):
+	if area == birdArea:
+		restart()
