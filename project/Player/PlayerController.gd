@@ -28,7 +28,7 @@ var grounded = false
 
 #var _velocity = Vector3.ZERO
 var turn_input:float = 0
-var max_turn_input: float = 0.75
+var max_turn_input: float = 1
 var pitch_input:float = 0
 var max_pitch_input: float = 1
 # Store the initial rotation of the bird
@@ -72,33 +72,14 @@ func _physics_process(delta):
 	var current_rotation = transform.basis
 	var current_euler = current_rotation.get_euler()
 	var target_pitch = initial_rotation.get_euler().x  # Keep the initial pitch
-		
-		# Construct a new Basis with the target pitch and current yaw and roll
+	# Construct a new Basis with the target pitch and current yaw and roll
 	var new_basis = Basis().rotated(Vector3.RIGHT, target_pitch) * Basis().rotated(Vector3.UP, current_euler.y) * Basis().rotated(Vector3.FORWARD, current_euler.z)
-		
 	transform.basis = current_rotation.slerp(new_basis, rotation_reset_speed * delta)
-		
 	if current_rotation.x == new_basis.x:
 		resetting_rotation = false
 
-func get_input(delta):
-	# Throttle input
-#	if Input.is_action_pressed("throttle_up"):
-#		target_speed = min(forward_speed + throttle_delta * delta, max_flight_speed)
-#	if Input.is_action_pressed("throttle_down"):
-#		var limit = 0 if grounded else min_flight_speed
-#		target_speed = max(forward_speed - throttle_delta * delta, limit)
-	# Turn (roll/yaw) input
-	turn_input = 0
-	if forward_speed > 0.5:
-		turn_input -= Input.get_action_strength("roll_right")
-		turn_input += Input.get_action_strength("roll_left")
-	# Pitch (climb/dive) input
-	pitch_input = 0
-	if not grounded:
-		pitch_input -= Input.get_action_strength("pitch_down")
-	if forward_speed >= min_flight_speed:
-		pitch_input += Input.get_action_strength("pitch_up")
+func crashPrevent():
+	pass
 
 func turnLeft():
 	resetting_rotation = false
@@ -128,6 +109,8 @@ func pitchDown():
 func resetRotation():
 	resetting_rotation = true
 
+func flapwing():
+	print('flapping')
 
 func _on_tree_entered():
 	GlobalSignal.Tpose_Left_Signal.connect(turnLeft)
@@ -136,8 +119,8 @@ func _on_tree_entered():
 	GlobalSignal.Arms_Up_Signal.connect(pitchUp)
 	GlobalSignal.Arms_In_Signal.connect(pitchDown)
 	GlobalSignal.Idle_Pose_Signal.connect(resetInput)
+	GlobalSignal.FlapWing_Signal.connect(pitchUp)
 	#GlobalSignal.NoPose.connect(resetRotation)
-
 
 func _on_tree_exited():
 	GlobalSignal.Tpose_Left_Signal.disconnect(turnLeft)
@@ -147,3 +130,22 @@ func _on_tree_exited():
 	GlobalSignal.Arms_Up_Signal.disconnect(pitchUp)
 	GlobalSignal.Arms_In_Signal.disconnect(pitchDown)
 	GlobalSignal.NoPose.disconnect(resetRotation)
+
+#func get_input(delta):
+#	# Throttle input
+##	if Input.is_action_pressed("throttle_up"):
+##		target_speed = min(forward_speed + throttle_delta * delta, max_flight_speed)
+##	if Input.is_action_pressed("throttle_down"):
+##		var limit = 0 if grounded else min_flight_speed
+##		target_speed = max(forward_speed - throttle_delta * delta, limit)
+#	# Turn (roll/yaw) input
+#	turn_input = 0
+#	if forward_speed > 0.5:
+#		turn_input -= Input.get_action_strength("roll_right")
+#		turn_input += Input.get_action_strength("roll_left")
+#	# Pitch (climb/dive) input
+#	pitch_input = 0
+#	if not grounded:
+#		pitch_input -= Input.get_action_strength("pitch_down")
+#	if forward_speed >= min_flight_speed:
+#		pitch_input += Input.get_action_strength("pitch_up")

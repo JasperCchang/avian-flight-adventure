@@ -98,7 +98,7 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -25, 1
 [node name="bird" parent="." instance=ExtResource("2_xhagn")]
 
 [node name="back_cam2" type="Camera3D" parent="bird"]
-transform = Transform3D(-3.78552e-08, 0.5, -0.866025, 2.18557e-08, 0.866025, 0.5, 1, 0, -4.37114e-08, -25, 9, 0)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -25, 0, 0)
 current = true
 
 [node name="SpringArm3D" type="SpringArm3D" parent="bird"]
@@ -241,6 +241,8 @@ shape = SubResource("BoxShape3D_dt2sg")
 
 [node name="bad_weather" type="Node3D" parent="."]
 
+[connection signal="tree_entered" from="bird" to="bird" method="_on_tree_entered"]
+[connection signal="tree_exited" from="bird" to="bird" method="_on_tree_exited"]
 [connection signal="area_entered" from="walls/floor" to="." method="_on_floor_area_entered"]
 [connection signal="area_entered" from="level/end" to="." method="_on_end_area_entered"]
 [connection signal="area_entered" from="level/level1/level1" to="." method="_on_level_1_area_entered"]

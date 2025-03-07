@@ -66,3 +66,6 @@ texture = ExtResource("3_vc36f")
 [node name="Heart" type="Sprite2D" parent="."]
 position = Vector2(1123, 470)
 texture = ExtResource("4_jvtuf")
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

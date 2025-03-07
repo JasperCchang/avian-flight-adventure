@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://mediapipe.gd" id="1_piueh"]
 [ext_resource type="PackedScene" uid="uid://cb7kp4qxvmo2p" path="res://Scenes/lowpoly_island.tscn" id="2_rjukv"]
 [ext_resource type="Script" path="res://Player/PlayerController.gd" id="3_rpqmo"]
-[ext_resource type="Texture2D" uid="uid://dk8ww8bsg834v" path="res://model/birdflap_0.png" id="4_omvqo"]
+[ext_resource type="Texture2D" uid="uid://c62sehodworg5" path="res://model/birdflap_0.png" id="4_omvqo"]
 [ext_resource type="Script" path="res://Player/BirdAnimation.gd" id="5_aqcu4"]
 [ext_resource type="Script" path="res://Player/CameraScript.gd" id="6_5yjs0"]
 
@@ -281,10 +281,10 @@ stretch_mode = 5
 [node name="CameraTimer" type="Timer" parent="Mediapipe"]
 
 [node name="lowpoly_island" parent="." instance=ExtResource("2_rjukv")]
-transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
+transform = Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 0, 0, 0)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
-transform = Transform3D(0.175, 0, 0, 0, 0.175, 0, 0, 0, 0.175, -0.296488, 8.27258, 30.3337)
+transform = Transform3D(0.175, 0, 0, 0, 0.175, 0, 0, 0, 0.175, 0, 15, 40)
 script = ExtResource("3_rpqmo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
