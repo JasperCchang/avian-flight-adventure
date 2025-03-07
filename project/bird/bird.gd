@@ -4,6 +4,7 @@ var moving_distance = 0.2
 const SPEED = 7
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var back_cam_1 = $"../back_cam1"
+@onready var cloud = preload("res://weather/weather.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -36,6 +37,7 @@ func _physics_process(delta: float) -> void:
 #		velocity.z = move_toward(velocity.z, 0, SPEED)
 		velocity.x = 0
 		velocity.z = 0
+		moving_distance = 0.2
 		reset_cam_rotation(delta)
 
 	move_and_slide()
@@ -45,6 +47,7 @@ func rotate_cam(input:Vector2, delta) -> void:
 		rotation.x = lerp(rotation.x, 10 * delta, delta)
 	elif input.x < 0 and rotation.x > -25:
 		rotation.x = lerp(rotation.x, -10 * delta, delta)
+		moving_distance = 0.1
 
 func reset_cam_rotation(delta) -> void:
 	if rotation.x > 0:
@@ -52,3 +55,8 @@ func reset_cam_rotation(delta) -> void:
 	elif rotation.x < 0:
 		rotation.x = lerp(rotation.x, 10 * delta, delta)
 
+
+func _on_area_3d_area_entered(area):
+	if area == cloud:
+		print("DIE")
+		get_tree().reload_current_scene()

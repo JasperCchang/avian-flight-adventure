@@ -1,10 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8y8mbdhsofed"]
+[gd_scene load_steps=6 format=3 uid="uid://c8y8mbdhsofed"]
 
-[ext_resource type="Texture2D" uid="uid://c1fsbio1h31cs" path="res://assets/weather_material/fx_cloudalpha03.png" id="1_yglkw"]
+[ext_resource type="Texture2D" uid="uid://cfv3t0lmuwhwp" path="res://assets/weather_material/fx_cloudalpha03.png" id="1_yglkw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jcnom"]
+radius = 4.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5g7pc"]
-emission_shape = 3
-emission_box_extents = Vector3(4, 2, 3)
+emission_shape = 1
+emission_sphere_radius = 4.0
 gravity = Vector3(0, 0, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jfi0n"]
@@ -17,9 +20,12 @@ billboard_mode = 1
 material = SubResource("StandardMaterial3D_jfi0n")
 size = Vector2(5, 5)
 
-[node name="weather" type="Node3D"]
+[node name="weather" type="Area3D"]
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_jcnom")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="CollisionShape3D"]
 amount = 50
 lifetime = 30.0
 explosiveness = 0.98

@@ -32,7 +32,7 @@ func _process(delta: float) -> void:
 	pass
 
 func show_game_ui_distance():
-	distance = bird.position.x
+	distance = start_to_end - bird.position.distance_to(end_point.position)
 	progress = distance/start_to_end * 100
 	return progress
 
@@ -46,7 +46,7 @@ func spwan_clouds():
 	while  clouds_to_spawn >= 0:
 		clouds_to_spawn -= 1
 		
-		var x : float = end_point.position.x - 2
+		var x : float = randf_range(bird.position.x + 30, end_point.position.x - 1)
 		var y : float = randf_range(end_point_mesh.mesh.size.y / 2 , -end_point_mesh.mesh.size.y / 2)
 		var z : float = randf_range(end_point_mesh.mesh.size.z / 2 , -end_point_mesh.mesh.size.z / 2)
 		
@@ -55,32 +55,35 @@ func spwan_clouds():
 		var cloud := _cloud.instantiate()
 		bad_weather.add_child(cloud)
 		cloud.global_position = self.global_position + spawn_pos
+		
+		await get_tree().create_timer(randf_range(0.5,1)).timeout
 
 func _on_end_area_entered(area: Area3D) -> void:
 	if area == birdArea:
 		print("end")
-		bird.moving_distance = 0
+		get_tree().reload_current_scene()
 
 func _on_level_1_area_entered(area: Area3D) -> void:
 	if area == birdArea:
 		print("level 1")
 		level_text.mesh.text = "level 2"
 
-
 func _on_level_2_area_entered(area: Area3D) -> void:
 	if area == birdArea:
 		print("level 2")
 		level_text.mesh.text = "level 3"
-
 
 func _on_level_3_area_entered(area: Area3D) -> void:
 	if area == birdArea:
 		print("level 3")
 		level_text.mesh.text = "End"
 
-
 func _on_floor_area_entered(area):
 	if area == birdArea:
 		print("DIE")
 		level_text.mesh.text = "Die"
 		get_tree().reload_current_scene()
+
+
+
+
