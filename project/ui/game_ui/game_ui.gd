@@ -1,6 +1,6 @@
 extends Control
 
-@onready var game_system = $"../Game"
+@onready var game_system = get_parent().get_child(0)
 @onready var progress_bar = $Panel/ProgressBar
 @onready var h_slider = $Panel/HSlider
 @onready var health = $Panel/VSlider
@@ -11,13 +11,16 @@ var isStart : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	game_system = get_parent().get_child(0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if(!isStart):
 		return
+
+	if not game_system or not is_instance_valid(game_system):
+		return
+
 	distance = game_system.show_game_ui_distance()
 	health_change_value = game_system.health_system()
 	progress_bar.value = distance
@@ -30,7 +33,6 @@ func set_Start():
 func _on_tree_exited():
 	GlobalSignal.Tpose_Signal.disconnect(set_Start)
 	pass # Replace with function body.
-
 
 func _on_tree_entered():
 	GlobalSignal.Tpose_Signal.connect(set_Start)

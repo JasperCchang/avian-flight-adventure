@@ -14,12 +14,19 @@ extends Node3D
 @export var _cloud : PackedScene
 @onready var bad_weather = $bad_weather
 
+@onready var level_1_scene
+@onready var back_cam_2 = $bird/back_cam2
+
+var is_restart = false
+
 var start_to_end = 0
 var distance = 0
 var progress = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	level_1_scene = get_parent()
+	back_cam_2.make_current()
 	level_text.mesh.text = "level 1"
 	start_to_end = start_point.position.distance_to(end_point.position)
 	spwan_clouds()
@@ -29,7 +36,9 @@ func _process(delta: float) -> void:
 #	back_cam.position.x = lerp(back_cam.position.x, bird.position.x - 10, 0.1)
 	back_cam_1.position.x = bird.position.x - 25
 	back_cam_1.look_at(bird.position)
-	pass
+	if is_restart == true:
+		level_1_scene.restart()
+		is_restart = false
 
 func show_game_ui_distance():
 	distance = bird.position.x
@@ -62,19 +71,17 @@ func spwan_clouds():
 func _on_end_area_entered(area: Area3D) -> void:
 	if area == birdArea:
 		print("end")
-		restart()
+		is_restart = true
 
 func _on_level_1_area_entered(area: Area3D) -> void:
 	if area == birdArea:
 		print("level 1")
 		level_text.mesh.text = "level 2"
 
-
 func _on_level_2_area_entered(area: Area3D) -> void:
 	if area == birdArea:
 		print("level 2")
 		level_text.mesh.text = "level 3"
-
 
 func _on_level_3_area_entered(area: Area3D) -> void:
 	if area == birdArea:
@@ -85,12 +92,8 @@ func _on_floor_area_entered(area: Area3D):
 	if area == birdArea:
 		print("DIE")
 		level_text.mesh.text = "Die"
-		restart()
-
-func restart() -> void:
-	get_tree().reload_current_scene()
-
+		is_restart = true
 
 func _on_weather_area_entered(area):
 	if area == birdArea:
-		restart()
+		is_restart = true

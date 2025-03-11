@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://cu3btbcxht7ye"]
 
 [ext_resource type="Script" path="res://ui/game_ui/game_ui.gd" id="1_6mq3l"]
-[ext_resource type="Texture2D" uid="uid://dw7qxxwraxchp" path="res://assets/ui_materials/health_bar.png" id="2_jqi23"]
-[ext_resource type="Texture2D" uid="uid://jhmvc7wvx4w4" path="res://assets/ui_materials/Bird.png" id="2_mk5fl"]
-[ext_resource type="Texture2D" uid="uid://deow2ht3imxlv" path="res://assets/ui_materials/progress_bar.png" id="3_c6n25"]
-[ext_resource type="Texture2D" uid="uid://cnquwihjfosf8" path="res://assets/ui_materials/Finish Flag.png" id="3_vc36f"]
-[ext_resource type="Texture2D" uid="uid://bftpc8vb6k8in" path="res://assets/ui_materials/Heart.png" id="4_jvtuf"]
+[ext_resource type="Texture2D" uid="uid://r6ibs4v13ech" path="res://assets/ui_materials/health_bar.png" id="2_jqi23"]
+[ext_resource type="Texture2D" uid="uid://ddy7ayy2rj3ep" path="res://assets/ui_materials/Bird.png" id="2_mk5fl"]
+[ext_resource type="Texture2D" uid="uid://d2fwowsqe6ma5" path="res://assets/ui_materials/progress_bar.png" id="3_c6n25"]
+[ext_resource type="Texture2D" uid="uid://bpkvgo1gxt441" path="res://assets/ui_materials/Finish Flag.png" id="3_vc36f"]
+[ext_resource type="Texture2D" uid="uid://dnoaue5cseetl" path="res://assets/ui_materials/Heart.png" id="4_jvtuf"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l8ikm"]
 texture = ExtResource("3_c6n25")
