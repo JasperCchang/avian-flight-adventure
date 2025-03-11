@@ -18,6 +18,8 @@ var acceleration:float = 0.2
 var rotation_reset_speed: float = 0.75
 var resetting_rotation: bool = false
 
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
 # Current speed
 var forward_speed:float = 0
 # Throttle input speed
@@ -31,6 +33,9 @@ var turn_input:float = 0
 var max_turn_input: float = 1
 var pitch_input:float = 0
 var max_pitch_input: float = 1
+
+var direction : Vector3
+
 # Store the initial rotation of the bird
 var initial_rotation: Basis
 
@@ -39,6 +44,7 @@ func _ready():
 	initial_rotation = transform.basis
 
 func _physics_process(delta):
+	#velocity.y -= gravity/4 * delta
 	var pitch_axis = transform.basis.x.normalized()
 	var turn_axis = Vector3.UP.normalized()
 	transform.basis = transform.basis.orthonormalized()
@@ -46,7 +52,8 @@ func _physics_process(delta):
 	pitch_input = clamp(pitch_input, -max_pitch_input, max_pitch_input)
 	target_speed = min(forward_speed + throttle_delta * delta, max_flight_speed)
 	transform.basis = transform.basis.rotated(transform.basis.x, pitch_input * pitch_speed * delta)
-	transform.basis = transform.basis.rotated(Vector3.UP, turn_input * turn_speed * delta)
+	#transform.basis = transform.basis.rotated(Vector3.UP, turn_input * turn_speed * delta)
+	
 
 	birdflap.rotation.z = lerp(birdflap.rotation.z, turn_input, level_speed * delta)
 	# If on the ground, don't roll the body
@@ -58,6 +65,7 @@ func _physics_process(delta):
 	forward_speed  = lerp(forward_speed, target_speed, delta * acceleration)
 	# Movement is always forward
 	velocity = -transform.basis.z * forward_speed
+	velocity.x = direction.x * 1.5
 	# Handle landing/taking off
 #	if is_on_floor():
 #		if not grounded:
@@ -83,12 +91,14 @@ func crashPrevent():
 
 func turnLeft():
 	resetting_rotation = false
+	direction = (transform.basis * Vector3(-1,0,0)).normalized()
 	#print('Signal Recieved, turning left')
 	if forward_speed > 0.5:
 		turn_input += 0.75
 		pitch_input = 0
 func turnRight():
 	resetting_rotation = false
+	direction = (transform.basis * Vector3(1,0,0)).normalized()
 	if forward_speed > 0.5:
 		turn_input -= 0.75
 		pitch_input = 0
@@ -96,6 +106,7 @@ func turnRight():
 func resetInput():
 	turn_input = 0
 	pitch_input = 0
+	direction = Vector3(0,0,0)
 	resetRotation()
 
 func pitchUp():
@@ -117,9 +128,9 @@ func _on_tree_entered():
 	GlobalSignal.Tpose_Right_Signal.connect(turnRight)
 	GlobalSignal.Tpose_Signal.connect(resetInput)
 	GlobalSignal.Arms_Up_Signal.connect(pitchUp)
+	GlobalSignal.FlapWing_Signal.connect(pitchUp)
 	GlobalSignal.Arms_In_Signal.connect(pitchDown)
 	GlobalSignal.Idle_Pose_Signal.connect(resetInput)
-	GlobalSignal.FlapWing_Signal.connect(pitchUp)
 	#GlobalSignal.NoPose.connect(resetRotation)
 
 func _on_tree_exited():
@@ -128,6 +139,7 @@ func _on_tree_exited():
 	GlobalSignal.Idle_Pose_Signal.disconnect(resetInput)
 	GlobalSignal.Tpose_Signal.disconnect(resetInput)
 	GlobalSignal.Arms_Up_Signal.disconnect(pitchUp)
+	GlobalSignal.FlapWing_Signal.disconnect(pitchUp)
 	GlobalSignal.Arms_In_Signal.disconnect(pitchDown)
 	GlobalSignal.NoPose.disconnect(resetRotation)
 

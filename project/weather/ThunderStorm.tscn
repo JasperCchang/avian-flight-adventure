@@ -1,0 +1,154 @@
+[gd_scene load_steps=22 format=3 uid="uid://cad5fq2wv11v"]
+
+[ext_resource type="Texture2D" uid="uid://del76kyvekep3" path="res://assets/weather_material/FX_CloudAlpha04.png" id="1_4qj6g"]
+[ext_resource type="Texture2D" uid="uid://dwcdahgl7b7hl" path="res://assets/weather_material/Circle.png" id="2_gs6gn"]
+[ext_resource type="Texture2D" uid="uid://5d0povmgj236" path="res://assets/weather_material/spark_05.png" id="3_ofpnl"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_y1v1j"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ev3w6"]
+sky_material = SubResource("ProceduralSkyMaterial_y1v1j")
+
+[sub_resource type="Environment" id="Environment_ki3vt"]
+background_mode = 2
+sky = SubResource("Sky_ev3w6")
+tonemap_mode = 3
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_blend_mode = 1
+volumetric_fog_enabled = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ll0mf"]
+emission_shape = 3
+emission_box_extents = Vector3(5, 2, 4)
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5o5o7"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.407843, 0.407843, 0.407843, 1)
+albedo_texture = ExtResource("1_4qj6g")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_vksnh"]
+material = SubResource("StandardMaterial3D_5o5o7")
+size = Vector2(5, 5)
+
+[sub_resource type="Gradient" id="Gradient_ju5nf"]
+offsets = PackedFloat32Array(0, 0.513043, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i4v3b"]
+gradient = SubResource("Gradient_ju5nf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0v683"]
+emission_shape = 3
+emission_box_extents = Vector3(4, 0.5, 4)
+direction = Vector3(0, -1, 0)
+spread = 5.0
+initial_velocity_min = 5.0
+initial_velocity_max = 5.0
+color = Color(0.635294, 0.686275, 0.737255, 0.596078)
+color_ramp = SubResource("GradientTexture1D_i4v3b")
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[sub_resource type="Curve" id="Curve_lb6fr"]
+max_value = 0.1
+_data = [Vector2(0, 0), 0.0, 2.51421, 0, 0, Vector2(0.0427046, 0.06), 0.517631, 0.517631, 0, 0, Vector2(0.199288, 0.0978947), 0.022753, 0.022753, 0, 0, Vector2(1, 0), 0.00821639, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_duii8"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_gs6gn")
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_tijpq"]
+material = SubResource("StandardMaterial3D_duii8")
+curve = SubResource("Curve_lb6fr")
+
+[sub_resource type="Curve" id="Curve_npei0"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.417625, 1), 0.0, 0.0, 0, 0, Vector2(0.977012, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_18k43"]
+curve = SubResource("Curve_npei0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dhxvi"]
+lifetime_randomness = 0.17
+emission_shape = 3
+emission_box_extents = Vector3(4, 1, 4)
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.6
+scale_max = 1.4
+scale_curve = SubResource("CurveTexture_18k43")
+color = Color(14.79, 11.83, 4.73, 1)
+
+[sub_resource type="Curve" id="Curve_lhd4g"]
+_data = [Vector2(0.00711744, 0), 0.0, 0.0, 0, 0, Vector2(0.238434, 0.957895), 0.0, 0.0, 0, 0, Vector2(0.786477, 0.989474), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_actf5"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.968627, 0.964706, 0, 0.184314)
+albedo_texture = ExtResource("3_ofpnl")
+heightmap_scale = 2.29
+refraction_scale = -1.0
+refraction_texture_channel = 3
+billboard_mode = 1
+grow_amount = 3.942
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_08ebj"]
+material = SubResource("StandardMaterial3D_actf5")
+size = 4.88
+sections = 8
+section_length = 1.4
+curve = SubResource("Curve_lhd4g")
+
+[node name="RainStorm" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ki3vt")
+
+[node name="Cloud" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.5, 0)
+amount = 90
+lifetime = 60.0
+explosiveness = 0.98
+randomness = 0.15
+process_material = SubResource("ParticleProcessMaterial_ll0mf")
+draw_pass_1 = SubResource("QuadMesh_vksnh")
+
+[node name="Rain" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+amount = 140
+lifetime = 2.0
+randomness = 0.8
+visibility_aabb = AABB(-4, -10, -4, 8, 10, 8)
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_0v683")
+draw_pass_1 = SubResource("RibbonTrailMesh_tijpq")
+
+[node name="ColllisionFloor" type="GPUParticlesCollisionBox3D" parent="."]
+size = Vector3(12, 2, 12)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.32739, 0)
+amount = 2
+lifetime = 0.57
+preprocess = 1.8
+explosiveness = 0.35
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_dhxvi")
+draw_pass_1 = SubResource("RibbonTrailMesh_08ebj")
