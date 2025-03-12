@@ -66,7 +66,7 @@ func spwan_clouds():
 		cloud.connect("area_entered", self._on_weather_area_entered)
 		cloud.global_position = self.global_position + spawn_pos
 
-		await get_tree().create_timer(randf_range(0.5,1)).timeout
+#		await get_tree().create_timer(randf_range(0.5,1)).timeout
 
 func _on_end_area_entered(area: Area3D) -> void:
 	if area == birdArea:

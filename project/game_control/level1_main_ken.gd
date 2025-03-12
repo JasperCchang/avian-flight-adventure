@@ -3,6 +3,8 @@ var current_ui
 var current_game
 var new_ui
 var new_game
+#var current_tutorial
+#var new_tutorial
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,6 +14,9 @@ func _ready():
 	add_child(new_ui)
 	current_game = new_game
 	current_ui = new_ui
+#	new_tutorial = load("res://ui/tutorial_ui/Tutorial_UI.tscn").instantiate()
+#	add_child(new_tutorial)
+#	current_tutorial = new_tutorial
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
