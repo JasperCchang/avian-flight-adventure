@@ -15,7 +15,7 @@ var is_Tpose : bool = false
 var is_Tpose_left : bool = false
 var is_Tpose_right : bool = false
 var is_arms_in : bool = false
-var flap_wing : bool = false
+var is_flap_wing : bool = false
 
 var pose_step = 0
 
@@ -34,19 +34,19 @@ func _ready():
 func _process(delta):
 	match pose_step:
 		0:
-			if is_Tpose and  tutorial_ui_db[0]["is_pose_done"] == false:
+			if is_Tpose and tutorial_ui_db[0]["is_pose_done"] == false:
 				next_pose(1)
 		1:
-			if is_Tpose_left and  tutorial_ui_db[1]["is_pose_done"] == false:
+			if is_Tpose_left and tutorial_ui_db[1]["is_pose_done"] == false:
 				next_pose(2)
 		2:
-			if is_Tpose_right and  tutorial_ui_db[2]["is_pose_done"] == false:
+			if is_Tpose_right and tutorial_ui_db[2]["is_pose_done"] == false:
 				next_pose(3)
 		3:
-			if is_arms_in and  tutorial_ui_db[3]["is_pose_done"] == false:
+			if is_arms_in and tutorial_ui_db[3]["is_pose_done"] == false:
 				next_pose(4)
 		4:
-			if flap_wing and  tutorial_ui_db[4]["is_pose_done"] == false:
+			if is_flap_wing and tutorial_ui_db[4]["is_pose_done"] == false:
 				visible = false
 				tutorial_ui_db[4]["is_pose_done"] = true
 
@@ -60,16 +60,20 @@ func Tpose():
 	is_Tpose = true
 
 func Tpose_Left():
-	is_Tpose_left = true
+	if tutorial_ui_db[0]["is_pose_done"] == true:
+		is_Tpose_left = true
 
 func Tpose_Right():
-	is_Tpose_right = true
+	if tutorial_ui_db[1]["is_pose_done"] == true:
+		is_Tpose_right = true
 
 func Arms_In():
-	is_arms_in = true
+	if tutorial_ui_db[2]["is_pose_done"] == true:
+		is_arms_in = true
 
 func Flap_Wing():
-	flap_wing = true
+	if tutorial_ui_db[3]["is_pose_done"] == true:
+		is_flap_wing = true
 
 func _on_tree_entered():
 	GlobalSignal.Tpose_Left_Signal.connect(Tpose_Left)

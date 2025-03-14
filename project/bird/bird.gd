@@ -3,7 +3,6 @@ extends CharacterBody3D
 var moving_distance = 0.2
 const SPEED = 7
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-@onready var back_cam_1 = $"../back_cam1"
 
 var isStart : bool = false
 

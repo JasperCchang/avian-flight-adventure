@@ -1,0 +1,29 @@
+[gd_scene load_steps=7 format=3 uid="uid://cf4rhx67kh5r4"]
+
+[ext_resource type="PackedScene" uid="uid://cu6crvv2rxsjq" path="res://bird/bird.tscn" id="1_3uu2x"]
+[ext_resource type="PackedScene" uid="uid://dk6ftf2op0l1j" path="res://Scenes/mediapipe.tscn" id="2_s263d"]
+[ext_resource type="PackedScene" uid="uid://fkabno35gmia" path="res://ui/tutorial_ui/Tutorial_UI.tscn" id="3_02b05"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7uo2v"]
+
+[sub_resource type="Sky" id="Sky_g6cpi"]
+sky_material = SubResource("ProceduralSkyMaterial_7uo2v")
+
+[sub_resource type="Environment" id="Environment_6fktc"]
+background_mode = 2
+sky = SubResource("Sky_g6cpi")
+
+[node name="Tutorial_level" type="Node3D"]
+
+[node name="bird" parent="." instance=ExtResource("1_3uu2x")]
+
+[node name="Camera3D" type="Camera3D" parent="bird"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -25, 0, 0)
+current = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6fktc")
+
+[node name="Tutorial_UI" parent="." instance=ExtResource("3_02b05")]
+
+[node name="Mediapipe" parent="." instance=ExtResource("2_s263d")]
