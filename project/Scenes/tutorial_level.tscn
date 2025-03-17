@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://ceo8plncwlval"]
+[gd_scene load_steps=18 format=3 uid="uid://cf4rhx67kh5r4"]
 
 [ext_resource type="PackedScene" uid="uid://cu6crvv2rxsjq" path="res://bird/bird.tscn" id="1_3uu2x"]
+[ext_resource type="Script" path="res://Scenes/game_control_demo.gd" id="1_xqfex"]
 [ext_resource type="PackedScene" uid="uid://dk6ftf2op0l1j" path="res://Scenes/mediapipe.tscn" id="2_s263d"]
 [ext_resource type="PackedScene" uid="uid://fkabno35gmia" path="res://ui/tutorial_ui/Tutorial_UI.tscn" id="3_02b05"]
 
@@ -50,6 +51,7 @@ background_mode = 2
 sky = SubResource("Sky_g6cpi")
 
 [node name="Tutorial_level" type="Node3D"]
+script = ExtResource("1_xqfex")
 
 [node name="bird" parent="." instance=ExtResource("1_3uu2x")]
 

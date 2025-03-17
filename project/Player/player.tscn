@@ -1,7 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://54we5y8kop58"]
+[gd_scene load_steps=12 format=3 uid="uid://dpmbdr4m7g25a"]
 
 [ext_resource type="Script" path="res://Player/PlayerController.gd" id="1_e1ex5"]
-[ext_resource type="Texture2D" uid="uid://c62sehodworg5" path="res://model/birdflap_0.png" id="2_eynka"]
+[ext_resource type="Texture2D" uid="uid://dk8ww8bsg834v" path="res://model/birdflap_0.png" id="2_eynka"]
 [ext_resource type="Script" path="res://Player/BirdAnimation.gd" id="3_ihvg2"]
 [ext_resource type="Script" path="res://Player/CameraScript.gd" id="4_dm88h"]
 [ext_resource type="Script" path="res://Player/Stamina.gd" id="5_r3uku"]

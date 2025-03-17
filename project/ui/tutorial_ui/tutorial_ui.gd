@@ -13,6 +13,7 @@ var tutorial_ui_db = {
 @onready var pose_text = $Panel/VBoxContainer/PoseText
 @onready var hit_light = $"../bird/hit_light"
 @onready var bird = $"../bird"
+@onready var tutorial_level = $".."
 
 var is_Tpose : bool = false
 var is_Tpose_left : bool = false
@@ -22,10 +23,16 @@ var is_flap_wing : bool = false
 
 var pose_step = 0
 
+@export var amount_of_tries = 1
+
+var is_time_start = false
+@export var time = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pose.texture = load(tutorial_ui_db[0]["pose_img"])
 	pose_text.text = tutorial_ui_db[0]["pose_text"]
+	is_time_start = true
 #	visible = true
 
 #	for i in tutorial_ui_db:
@@ -35,7 +42,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if is_time_start:
+		time += delta
 #	match pose_step:
 #		0:
 #			if is_Tpose and tutorial_ui_db[0]["is_pose_done"] == false:
@@ -121,25 +129,32 @@ func _on_up_area_area_entered(area):
 	next_pose(5)
 
 func _on_end_area_area_entered(area):
-	get_tree().quit()
+	var summary_ui = load("res://ui/summary_ui/summary_ui.tscn").instantiate()
+	is_time_start = false
+	tutorial_level.add_child(summary_ui)
+	print("good")
 
 
 func _on_restart_left_area_entered(area):
 	if tutorial_ui_db[1]["is_pose_done"] == false:
 		bird.position.x = 0
+		amount_of_tries += 1
 		next_pose(1)
 
 func _on_restart_right_area_entered(area):
 	if tutorial_ui_db[2]["is_pose_done"] == false:
 		bird.position.x = 100
+		amount_of_tries += 1
 		next_pose(2)
 
 func _on_restart_down_area_entered(area):
 	if tutorial_ui_db[3]["is_pose_done"] == false:
 		bird.position.x = 200
+		amount_of_tries += 1
 		next_pose(3)
 
 func _on_restart_up_area_entered(area):
 	if tutorial_ui_db[4]["is_pose_done"] == false:
 		bird.position.x = 300
+		amount_of_tries += 1
 		next_pose(4)
