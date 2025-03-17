@@ -26,9 +26,8 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	# Add the gravity.
-	if not is_on_floor():
-		velocity.y -= gravity/2 * delta
-		pass
+#	if not is_on_floor():
+#		velocity.y -= gravity/2 * delta
 
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
@@ -45,8 +44,8 @@ func _physics_process(delta: float) -> void:
 	else:
 #		velocity.x = move_toward(velocity.x, 0, SPEED)
 #		velocity.z = move_toward(velocity.z, 0, SPEED)
-		velocity.x = 0
 		velocity.z = 0
+		velocity.y = 0 # comment this line when adding gravity
 		reset_cam_rotation(delta)
 
 	move_and_slide()

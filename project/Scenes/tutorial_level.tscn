@@ -1,8 +1,44 @@
-[gd_scene load_steps=7 format=3 uid="uid://cf4rhx67kh5r4"]
+[gd_scene load_steps=17 format=3 uid="uid://cf4rhx67kh5r4"]
 
 [ext_resource type="PackedScene" uid="uid://cu6crvv2rxsjq" path="res://bird/bird.tscn" id="1_3uu2x"]
 [ext_resource type="PackedScene" uid="uid://dk6ftf2op0l1j" path="res://Scenes/mediapipe.tscn" id="2_s263d"]
 [ext_resource type="PackedScene" uid="uid://fkabno35gmia" path="res://ui/tutorial_ui/Tutorial_UI.tscn" id="3_02b05"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ye5k6"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_egbdu"]
+material = SubResource("StandardMaterial3D_ye5k6")
+inner_radius = 4.0
+outer_radius = 5.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dd7ir"]
+height = 1.0
+radius = 5.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rok4t"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qw11p"]
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fntdf"]
+billboard_mode = 2
+
+[sub_resource type="TextMesh" id="TextMesh_n483h"]
+material = SubResource("StandardMaterial3D_fntdf")
+text = "END"
+font_size = 127
+uppercase = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u08i8"]
+size = Vector3(560, 30, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8610x"]
+size = Vector3(560, 1, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mijf2"]
+size = Vector3(1, 30, 50)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7uo2v"]
 
@@ -21,9 +57,152 @@ sky = SubResource("Sky_g6cpi")
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -25, 0, 0)
 current = true
 
+[node name="hit_light" type="OmniLight3D" parent="bird"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+visible = false
+light_color = Color(1, 1, 0, 1)
+light_size = 1.0
+light_specular = 0.0
+
+[node name="rings" type="Node3D" parent="."]
+
+[node name="left_ring" type="MeshInstance3D" parent="rings"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 100, 10, -20)
+mesh = SubResource("TorusMesh_egbdu")
+skeleton = NodePath("../..")
+
+[node name="left_area" type="Area3D" parent="rings/left_ring"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rings/left_ring/left_area"]
+shape = SubResource("CylinderShape3D_dd7ir")
+
+[node name="restart_left" type="Area3D" parent="rings/left_ring"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rings/left_ring/restart_left"]
+shape = SubResource("BoxShape3D_rok4t")
+
+[node name="right_ring" type="MeshInstance3D" parent="rings"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 200, 10, 20)
+mesh = SubResource("TorusMesh_egbdu")
+skeleton = NodePath("../..")
+
+[node name="right_area" type="Area3D" parent="rings/right_ring"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rings/right_ring/right_area"]
+shape = SubResource("CylinderShape3D_dd7ir")
+
+[node name="restart_right" type="Area3D" parent="rings/right_ring"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rings/right_ring/restart_right"]
+shape = SubResource("BoxShape3D_rok4t")
+
+[node name="down_ring" type="MeshInstance3D" parent="rings"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 300, 0, 20)
+mesh = SubResource("TorusMesh_egbdu")
+skeleton = NodePath("../..")
+
+[node name="down_area" type="Area3D" parent="rings/down_ring"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rings/down_ring/down_area"]
+shape = SubResource("CylinderShape3D_dd7ir")
+
+[node name="restart_down" type="Area3D" parent="rings/down_ring"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rings/down_ring/restart_down"]
+shape = SubResource("BoxShape3D_rok4t")
+
+[node name="up_ring" type="MeshInstance3D" parent="rings"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 400, 10, 20)
+mesh = SubResource("TorusMesh_egbdu")
+skeleton = NodePath("../..")
+
+[node name="up_area" type="Area3D" parent="rings/up_ring"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rings/up_ring/up_area"]
+shape = SubResource("CylinderShape3D_dd7ir")
+
+[node name="restart_up" type="Area3D" parent="rings/up_ring"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rings/up_ring/restart_up"]
+shape = SubResource("BoxShape3D_rok4t")
+
+[node name="end_ring" type="MeshInstance3D" parent="rings"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 554, 15, 0)
+mesh = SubResource("TorusMesh_egbdu")
+skeleton = NodePath("../..")
+
+[node name="end_area" type="Area3D" parent="rings/end_ring"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rings/end_ring/end_area"]
+shape = SubResource("CylinderShape3D_dd7ir")
+
+[node name="end" type="GPUParticles3D" parent="rings/end_ring"]
+amount = 1
+lifetime = 30.0
+process_material = SubResource("ParticleProcessMaterial_qw11p")
+draw_pass_1 = SubResource("TextMesh_n483h")
+
+[node name="walls" type="Node3D" parent="."]
+
+[node name="left" type="MeshInstance3D" parent="walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 275, 7.5, -25)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="walls/left"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/left/StaticBody3D"]
+shape = SubResource("BoxShape3D_u08i8")
+
+[node name="right" type="MeshInstance3D" parent="walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 275, 7.5, 25)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="walls/right"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/right/StaticBody3D"]
+shape = SubResource("BoxShape3D_u08i8")
+
+[node name="down" type="MeshInstance3D" parent="walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 275, -7.5, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="walls/down"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/down/StaticBody3D"]
+shape = SubResource("BoxShape3D_8610x")
+
+[node name="up" type="MeshInstance3D" parent="walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 275, 22.5, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="walls/up"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/up/StaticBody3D"]
+shape = SubResource("BoxShape3D_8610x")
+
+[node name="end" type="MeshInstance3D" parent="walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 555, 7.5, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="walls/end"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/end/StaticBody3D"]
+shape = SubResource("BoxShape3D_mijf2")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6fktc")
 
 [node name="Tutorial_UI" parent="." instance=ExtResource("3_02b05")]
 
 [node name="Mediapipe" parent="." instance=ExtResource("2_s263d")]
+
+[connection signal="tree_entered" from="bird" to="bird" method="_on_tree_entered"]
+[connection signal="tree_exited" from="bird" to="bird" method="_on_tree_exited"]
+[connection signal="area_entered" from="rings/left_ring/left_area" to="Tutorial_UI" method="_on_left_area_area_entered"]
+[connection signal="area_entered" from="rings/left_ring/restart_left" to="Tutorial_UI" method="_on_restart_left_area_entered"]
+[connection signal="area_entered" from="rings/right_ring/right_area" to="Tutorial_UI" method="_on_right_area_area_entered"]
+[connection signal="area_entered" from="rings/right_ring/restart_right" to="Tutorial_UI" method="_on_restart_right_area_entered"]
+[connection signal="area_entered" from="rings/down_ring/down_area" to="Tutorial_UI" method="_on_down_area_area_entered"]
+[connection signal="area_entered" from="rings/down_ring/restart_down" to="Tutorial_UI" method="_on_restart_down_area_entered"]
+[connection signal="area_entered" from="rings/up_ring/up_area" to="Tutorial_UI" method="_on_up_area_area_entered"]
+[connection signal="area_entered" from="rings/up_ring/restart_up" to="Tutorial_UI" method="_on_restart_up_area_entered"]
+[connection signal="area_entered" from="rings/end_ring/end_area" to="Tutorial_UI" method="_on_end_area_area_entered"]
