@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://br6dpnjm2q2gt"]
+
+[ext_resource type="Script" path="res://Checkpoint/CheckPoint.gd" id="1_qgq7t"]
+[ext_resource type="Shader" uid="uid://c03ipdvdgfbyq" path="res://shader_Circle.tres" id="2_78o18"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3pxxs"]
+render_priority = 0
+shader = ExtResource("2_78o18")
+
+[sub_resource type="Gradient" id="Gradient_4eym5"]
+offsets = PackedFloat32Array(0, 0.543478, 1)
+colors = PackedColorArray(1, 1, 1, 0.117647, 1, 1, 1, 0.705882, 1, 1, 1, 0.117647)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8lyto"]
+gradient = SubResource("Gradient_4eym5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7nxko"]
+gravity = Vector3(0, 0, 0)
+color = Color(0.901961, 2, 0.917647, 1)
+color_ramp = SubResource("GradientTexture1D_8lyto")
+turbulence_noise_strength = 5.79
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lywhx"]
+top_radius = 20.0
+bottom_radius = 20.0
+height = 10.0
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_c1rga"]
+height = 10.0
+radius = 20.0
+
+[node name="CheckpointVFX" type="Node3D"]
+script = ExtResource("1_qgq7t")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+material_override = SubResource("ShaderMaterial_3pxxs")
+cast_shadow = 0
+amount = 1
+lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_7nxko")
+draw_pass_1 = SubResource("CylinderMesh_lywhx")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+shape = SubResource("CylinderShape3D_c1rga")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

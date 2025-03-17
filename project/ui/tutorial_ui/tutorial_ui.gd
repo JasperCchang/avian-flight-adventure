@@ -73,7 +73,6 @@ func next_pose(step : int) -> void:
 
 func Tpose():
 	next_pose(1)
-	is_Tpose = true
 
 func Tpose_Left():
 	if tutorial_ui_db[0]["is_pose_done"] == true:

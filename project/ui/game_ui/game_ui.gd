@@ -11,7 +11,8 @@ var isStart : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	game_system = get_parent().get_child(0)
+	game_system = get_parent()
+	health.value = health.max_value
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -22,10 +23,10 @@ func _process(delta):
 		return
 
 	distance = game_system.show_game_ui_distance()
-	health_change_value = game_system.health_system()
+	#health_change_value = game_system.health_system()
 	progress_bar.value = distance
 	h_slider.value = distance
-	health.value += health_change_value
+	health.value = game_system.update_health_display()
 
 func set_Start():
 	isStart = true

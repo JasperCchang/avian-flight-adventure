@@ -1,5 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://cad5fq2wv11v"]
 
+[ext_resource type="Script" path="res://weather/Script/ThunderStorm.gd" id="1_0tb7r"]
 [ext_resource type="Texture2D" uid="uid://del76kyvekep3" path="res://assets/weather_material/FX_CloudAlpha04.png" id="1_4qj6g"]
 [ext_resource type="Texture2D" uid="uid://dwcdahgl7b7hl" path="res://assets/weather_material/Circle.png" id="2_gs6gn"]
 [ext_resource type="Texture2D" uid="uid://5d0povmgj236" path="res://assets/weather_material/spark_05.png" id="3_ofpnl"]
@@ -24,13 +25,13 @@ volumetric_fog_enabled = true
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ll0mf"]
 emission_shape = 3
-emission_box_extents = Vector3(5, 2, 4)
+emission_box_extents = Vector3(5, 2.5, 4)
 gravity = Vector3(0, 0, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5o5o7"]
 transparency = 1
 shading_mode = 0
-albedo_color = Color(0.407843, 0.407843, 0.407843, 1)
+albedo_color = Color(0.282353, 0.282353, 0.282353, 1)
 albedo_texture = ExtResource("1_4qj6g")
 billboard_mode = 1
 
@@ -75,22 +76,18 @@ use_particle_trails = true
 material = SubResource("StandardMaterial3D_duii8")
 curve = SubResource("Curve_lb6fr")
 
-[sub_resource type="Curve" id="Curve_npei0"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.417625, 1), 0.0, 0.0, 0, 0, Vector2(0.977012, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_18k43"]
-curve = SubResource("Curve_npei0")
-
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dhxvi"]
 lifetime_randomness = 0.17
 emission_shape = 3
 emission_box_extents = Vector3(4, 1, 4)
-direction = Vector3(0, 0, 0)
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+direction = Vector3(0, 0.1, 0)
 gravity = Vector3(0, 0, 0)
+angle_min = -14.0
+angle_max = 14.0
 scale_min = 0.6
-scale_max = 1.4
-scale_curve = SubResource("CurveTexture_18k43")
+scale_max = 1.2
 color = Color(14.79, 11.83, 4.73, 1)
 
 [sub_resource type="Curve" id="Curve_lhd4g"]
@@ -106,23 +103,31 @@ albedo_texture = ExtResource("3_ofpnl")
 heightmap_scale = 2.29
 refraction_scale = -1.0
 refraction_texture_channel = 3
-billboard_mode = 1
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
 grow_amount = 3.942
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_08ebj"]
 material = SubResource("StandardMaterial3D_actf5")
+shape = 0
 size = 4.88
 sections = 8
 section_length = 1.4
 curve = SubResource("Curve_lhd4g")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_mw1bx"]
+size = Vector3(10, 18, 10)
+
 [node name="RainStorm" type="Node3D"]
+script = ExtResource("1_0tb7r")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ki3vt")
 
 [node name="Cloud" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9549, 0)
 amount = 90
 lifetime = 60.0
 explosiveness = 0.98
@@ -143,7 +148,7 @@ draw_pass_1 = SubResource("RibbonTrailMesh_tijpq")
 [node name="ColllisionFloor" type="GPUParticlesCollisionBox3D" parent="."]
 size = Vector3(12, 2, 12)
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="Lightning" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.32739, 0)
 amount = 2
 lifetime = 0.57
@@ -152,3 +157,12 @@ explosiveness = 0.35
 randomness = 0.5
 process_material = SubResource("ParticleProcessMaterial_dhxvi")
 draw_pass_1 = SubResource("RibbonTrailMesh_08ebj")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+shape = SubResource("BoxShape3D_mw1bx")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

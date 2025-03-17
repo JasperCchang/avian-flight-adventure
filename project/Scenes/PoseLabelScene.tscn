@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cawcxs4hmyb32"]
 
-[ext_resource type="Script" path="res://UpdateLabel.gd" id="1_faoiq"]
+[ext_resource type="Script" path="res://ui/UpdateLabel.gd" id="1_faoiq"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

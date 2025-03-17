@@ -26,7 +26,9 @@ var forward_speed:float = 0
 var target_speed:float = 0
 # Lets us disable certain things when grounded
 var grounded = false
-@onready var birdflap = $Node3D/birdflap
+@onready var birdflap = $BirdModel/birdflap
+
+@export var Stamina : Health
 
 #var _velocity = Vector3.ZERO
 var turn_input:float = 0
@@ -44,7 +46,7 @@ func _ready():
 	initial_rotation = transform.basis
 
 func _physics_process(delta):
-	#velocity.y -= gravity/4 * delta
+	
 	var pitch_axis = transform.basis.x.normalized()
 	var turn_axis = Vector3.UP.normalized()
 	transform.basis = transform.basis.orthonormalized()
@@ -53,7 +55,6 @@ func _physics_process(delta):
 	target_speed = min(forward_speed + throttle_delta * delta, max_flight_speed)
 	transform.basis = transform.basis.rotated(transform.basis.x, pitch_input * pitch_speed * delta)
 	#transform.basis = transform.basis.rotated(Vector3.UP, turn_input * turn_speed * delta)
-	
 
 	birdflap.rotation.z = lerp(birdflap.rotation.z, turn_input, level_speed * delta)
 	# If on the ground, don't roll the body
@@ -64,8 +65,14 @@ func _physics_process(delta):
 	# Accelerate/decelerate
 	forward_speed  = lerp(forward_speed, target_speed, delta * acceleration)
 	# Movement is always forward
-	velocity = -transform.basis.z * forward_speed
+	if !is_on_floor():
+		velocity = -transform.basis.z * forward_speed
+		velocity.y -= gravity/2 * delta
+		Stamina.health -= 1
+	else: 
+		velocity = Vector3(0,0,0)
 	velocity.x = direction.x * 1.5
+	velocity.y = direction.y * 3
 	# Handle landing/taking off
 #	if is_on_floor():
 #		if not grounded:
@@ -83,6 +90,7 @@ func _physics_process(delta):
 	# Construct a new Basis with the target pitch and current yaw and roll
 	var new_basis = Basis().rotated(Vector3.RIGHT, target_pitch) * Basis().rotated(Vector3.UP, current_euler.y) * Basis().rotated(Vector3.FORWARD, current_euler.z)
 	transform.basis = current_rotation.slerp(new_basis, rotation_reset_speed * delta)
+	direction.y = 0.0
 	if current_rotation.x == new_basis.x:
 		resetting_rotation = false
 
@@ -110,10 +118,15 @@ func resetInput():
 	resetRotation()
 
 func pitchUp():
-	pitch_input += 0.5
-	turn_input = 0
+	if Stamina.get_health() > 0 :
+		direction = (transform.basis * Vector3(0,1,0)).normalized()
+		pitch_input += 0.5
+		turn_input = 0
+	else:
+		return
 
 func pitchDown():
+	direction = (transform.basis * Vector3(0,-1,0)).normalized()
 	pitch_input -= 0.5
 	turn_input = 0
 
@@ -161,3 +174,7 @@ func _on_tree_exited():
 #		pitch_input -= Input.get_action_strength("pitch_down")
 #	if forward_speed >= min_flight_speed:
 #		pitch_input += Input.get_action_strength("pitch_up")
+
+
+func _on_stamina_health_depleted():
+	pass # Replace with function body.
