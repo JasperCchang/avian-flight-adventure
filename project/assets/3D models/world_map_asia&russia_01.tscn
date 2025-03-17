@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://svhyg4xktkua"]
+
+[ext_resource type="PackedScene" uid="uid://bjlbxyps3gv53" path="res://assets/3D models/world_map_asia&russia01.fbx" id="1_k5tsj"]
+
+[node name="world_map_asia&russia01" instance=ExtResource("1_k5tsj")]
