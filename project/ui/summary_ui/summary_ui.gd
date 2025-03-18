@@ -11,19 +11,21 @@ var summary_info = {
 }
 
 @onready var info_list = $Panel/info_list
-@onready var tutorial_ui_info = $"..".get_node("Tutorial_UI")
+#@onready var tutorial_ui_info = $"..".get_node("Tutorial_UI")
 @onready var game_info = $".."
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
-	if tutorial_ui_info and game_info:
+###################### can change if you want ########################
+	if  game_info:
 		summary_info[0]["detail"] = game_info.score
-		summary_info[1]["detail"] = str(int(tutorial_ui_info.time)) + " s"
-		summary_info[2]["detail"] = tutorial_ui_info.amount_of_tries
+		summary_info[1]["detail"] = str(int(game_info.time)) + " s"
+		summary_info[2]["detail"] = game_info.amount_of_tries
 		summary_info[3]["detail"] = game_info.foods
-		summary_info[4]["detail"] = game_info.health
+		summary_info[4]["detail"] = game_info.level_1_health
 		summary_info[5]["detail"] = game_info.storm
+###################################################################
 
 	for i in summary_info:
 		var info = Label.new()

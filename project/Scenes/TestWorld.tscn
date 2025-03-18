@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://mediapipe.gd" id="1_piueh"]
 [ext_resource type="Script" path="res://Scenes/GameControl.gd" id="1_qsnt4"]
 [ext_resource type="PackedScene" uid="uid://cb7kp4qxvmo2p" path="res://Scenes/lowpoly_island.tscn" id="2_rjukv"]
-[ext_resource type="PackedScene" uid="uid://54we5y8kop58" path="res://Player/player.tscn" id="3_b1hu7"]
+[ext_resource type="PackedScene" uid="uid://dpmbdr4m7g25a" path="res://Player/player.tscn" id="3_b1hu7"]
 [ext_resource type="PackedScene" uid="uid://cu3btbcxht7ye" path="res://ui/game_ui/game_ui.tscn" id="6_idfpr"]
 [ext_resource type="PackedScene" uid="uid://br6dpnjm2q2gt" path="res://Checkpoint/CircleParticles.tscn" id="7_3a77m"]
 [ext_resource type="PackedScene" uid="uid://cad5fq2wv11v" path="res://weather/ThunderStorm.tscn" id="8_a4hna"]
@@ -105,6 +105,12 @@ mesh = SubResource("BoxMesh_pp24y")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="endingPad/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_fvfgl")
 
+[node name="ending_area" type="Area3D" parent="endingPad"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="endingPad/ending_area"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("ConcavePolygonShape3D_fvfgl")
+
 [node name="CheckPointController" type="Node" parent="."]
 
 [node name="CheckPoint 1" parent="CheckPointController" instance=ExtResource("7_3a77m")]
@@ -126,3 +132,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.0244, 0.8, -32.194)
 [node name="Game_UI" parent="." instance=ExtResource("6_idfpr")]
 
 [connection signal="timeout" from="Mediapipe/CameraTimer" to="Mediapipe" method="_on_camera_timer_timeout" flags=18]
+[connection signal="area_entered" from="endingPad/ending_area" to="." method="_on_ending_area_area_entered"]

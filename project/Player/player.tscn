@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dpmbdr4m7g25a"]
+[gd_scene load_steps=13 format=3 uid="uid://dpmbdr4m7g25a"]
 
 [ext_resource type="Script" path="res://Player/PlayerController.gd" id="1_e1ex5"]
 [ext_resource type="Texture2D" uid="uid://dk8ww8bsg834v" path="res://model/birdflap_0.png" id="2_eynka"]
@@ -223,6 +223,8 @@ _data = {
 "Take 001": SubResource("Animation_fyxdq")
 }
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_ijrn1"]
+
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("Stamina") groups=["Player"]]
 script = ExtResource("1_e1ex5")
 Stamina = NodePath("Stamina")
@@ -383,6 +385,11 @@ target = NodePath("../..")
 
 [node name="Stamina" type="Node" parent="."]
 script = ExtResource("5_r3uku")
+
+[node name="bird_area" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bird_area"]
+shape = SubResource("SphereShape3D_ijrn1")
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

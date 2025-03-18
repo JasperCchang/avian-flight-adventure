@@ -12,7 +12,19 @@ var start_to_end = 0
 var distance = 0
 var progress = 0
 
+############### summary value, can change if you want ##################
 var level_1_health: int = 3000
+
+@export var score = 10000
+@export var foods = 2
+@export var storm = 10
+@export var amount_of_tries = 1
+
+var is_time_start = false
+@export var time = 0
+########################################################################
+
+@onready var bird_area = $Player/bird_area
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,8 +36,15 @@ func _ready():
 	var StaminaUI = ui.get_node('Panel/VSlider')
 	stamina_slider = StaminaUI as Slider
 	set_ui_value(level_1_health)
+	
+	# start counting time
+	is_time_start = true
 	pass # Replace with function body.
 
+func _process(delta):
+	# counting time
+	if is_time_start:
+		time += delta
 
 func show_game_ui_distance():
 	distance = player.position.distance_to(starting_point.position)
@@ -44,3 +63,8 @@ func update_health_display():
 	print(player_stamina.get_health())
 	return player_stamina.get_health()
 
+func _on_ending_area_area_entered(area):
+	if area == bird_area:
+		var summary_ui = load("res://ui/summary_ui/summary_ui.tscn").instantiate()
+		is_time_start = false
+		add_child(summary_ui)

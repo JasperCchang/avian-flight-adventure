@@ -132,8 +132,6 @@ func _on_end_area_area_entered(area):
 	var summary_ui = load("res://ui/summary_ui/summary_ui.tscn").instantiate()
 	is_time_start = false
 	tutorial_level.add_child(summary_ui)
-	print("good")
-
 
 func _on_restart_left_area_entered(area):
 	if tutorial_ui_db[1]["is_pose_done"] == false:
