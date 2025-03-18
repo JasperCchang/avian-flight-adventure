@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://br6dpnjm2q2gt"]
 
 [ext_resource type="Script" path="res://Checkpoint/CheckPoint.gd" id="1_qgq7t"]
-[ext_resource type="Shader" uid="uid://b6ipn0pu8dc8a" path="res://shader_Circle.tres" id="2_78o18"]
+[ext_resource type="Shader" uid="uid://c03ipdvdgfbyq" path="res://shader_Circle.tres" id="2_78o18"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3pxxs"]
 render_priority = 0

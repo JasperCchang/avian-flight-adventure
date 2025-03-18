@@ -24,8 +24,6 @@ var is_time_start = false
 @export var time = 0
 ########################################################################
 
-@onready var bird_area = $Player/bird_area
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	start_to_end = starting_point.position.distance_to(ending_point.position)
@@ -39,6 +37,7 @@ func _ready():
 	
 	# start counting time
 	is_time_start = true
+	GlobalSignal.LevelStart.emit()
 	pass # Replace with function body.
 
 func _process(delta):
@@ -60,11 +59,19 @@ func set_ui_value(value):
 	stamina_slider.value = value
 
 func update_health_display():
-	print(player_stamina.get_health())
+	#print(player_stamina.get_health())
 	return player_stamina.get_health()
 
-func _on_ending_area_area_entered(area):
-	if area == bird_area:
-		var summary_ui = load("res://ui/summary_ui/summary_ui.tscn").instantiate()
-		is_time_start = false
-		add_child(summary_ui)
+func levelEnd():
+	var summary_ui = load("res://ui/summary_ui/summary_ui.tscn").instantiate()
+	add_child(summary_ui)
+	GlobalSignal.LevelEnd.disconnect(levelEnd)
+
+func _on_tree_entered():
+	GlobalSignal.LevelEnd.connect(levelEnd)
+	pass # Replace with function body.
+
+
+func _on_tree_exited():
+	GlobalSignal.LevelEnd.disconnect(levelEnd)
+	pass # Replace with function body.

@@ -1,11 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://pyeuiba12nma"]
+[gd_scene load_steps=17 format=3 uid="uid://pyeuiba12nma"]
 
 [ext_resource type="Script" path="res://mediapipe.gd" id="1_piueh"]
 [ext_resource type="Script" path="res://Scenes/GameControl.gd" id="1_qsnt4"]
 [ext_resource type="PackedScene" uid="uid://cb7kp4qxvmo2p" path="res://Scenes/lowpoly_island.tscn" id="2_rjukv"]
-[ext_resource type="PackedScene" uid="uid://dpmbdr4m7g25a" path="res://Player/player.tscn" id="3_b1hu7"]
+[ext_resource type="PackedScene" uid="uid://54we5y8kop58" path="res://Player/player.tscn" id="3_b1hu7"]
+[ext_resource type="Script" path="res://Scenes/endingPad.gd" id="5_46mr6"]
 [ext_resource type="PackedScene" uid="uid://cu3btbcxht7ye" path="res://ui/game_ui/game_ui.tscn" id="6_idfpr"]
 [ext_resource type="PackedScene" uid="uid://br6dpnjm2q2gt" path="res://Checkpoint/CircleParticles.tscn" id="7_3a77m"]
+[ext_resource type="PackedScene" uid="uid://dye7me70q7oij" path="res://Boost.tscn" id="7_5hj28"]
 [ext_resource type="PackedScene" uid="uid://cad5fq2wv11v" path="res://weather/ThunderStorm.tscn" id="8_a4hna"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jhkty"]
@@ -99,6 +101,7 @@ shape = SubResource("ConcavePolygonShape3D_fvfgl")
 [node name="endingPad" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -282.524)
 mesh = SubResource("BoxMesh_pp24y")
+script = ExtResource("5_46mr6")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="endingPad"]
 
@@ -106,6 +109,7 @@ mesh = SubResource("BoxMesh_pp24y")
 shape = SubResource("ConcavePolygonShape3D_fvfgl")
 
 [node name="ending_area" type="Area3D" parent="endingPad"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39475, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="endingPad/ending_area"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -129,7 +133,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.0488, 0.8, -64.3881)
 [node name="RainStorm" parent="Objects_Interatives" instance=ExtResource("8_a4hna")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.0244, 0.8, -32.194)
 
+[node name="Node3D" parent="Objects_Interatives" instance=ExtResource("7_5hj28")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.80601, 39.9039)
+
+[node name="Node3D2" parent="Objects_Interatives" instance=ExtResource("7_5hj28")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.29562, 30.9046)
+
 [node name="Game_UI" parent="." instance=ExtResource("6_idfpr")]
 
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
 [connection signal="timeout" from="Mediapipe/CameraTimer" to="Mediapipe" method="_on_camera_timer_timeout" flags=18]
-[connection signal="area_entered" from="endingPad/ending_area" to="." method="_on_ending_area_area_entered"]
+[connection signal="body_entered" from="endingPad/ending_area" to="endingPad" method="_on_ending_area_body_entered"]

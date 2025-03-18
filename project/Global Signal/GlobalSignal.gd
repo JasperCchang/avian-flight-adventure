@@ -8,3 +8,5 @@ signal Arms_Up_Signal
 signal Idle_Pose_Signal
 signal NoPose
 signal FlapWing_Signal
+signal LevelEnd
+signal LevelStart

@@ -41,58 +41,61 @@ var direction : Vector3
 # Store the initial rotation of the bird
 var initial_rotation: Basis
 
+var canStart : bool = false
+
 func _ready():
 	# Save the initial rotation of the bird
 	initial_rotation = transform.basis
 
 func _physics_process(delta):
-	
-	var pitch_axis = transform.basis.x.normalized()
-	var turn_axis = Vector3.UP.normalized()
-	transform.basis = transform.basis.orthonormalized()
-	turn_input = clamp(turn_input, -max_turn_input, max_turn_input)
-	pitch_input = clamp(pitch_input, -max_pitch_input, max_pitch_input)
-	target_speed = min(forward_speed + throttle_delta * delta, max_flight_speed)
-	transform.basis = transform.basis.rotated(transform.basis.x, pitch_input * pitch_speed * delta)
-	#transform.basis = transform.basis.rotated(Vector3.UP, turn_input * turn_speed * delta)
+	if canStart:
+		var pitch_axis = transform.basis.x.normalized()
+		var turn_axis = Vector3.UP.normalized()
+		transform.basis = transform.basis.orthonormalized()
+		turn_input = clamp(turn_input, -max_turn_input, max_turn_input)
+		pitch_input = clamp(pitch_input, -max_pitch_input, max_pitch_input)
+		target_speed = min(forward_speed + throttle_delta * delta, max_flight_speed)
+		transform.basis = transform.basis.rotated(transform.basis.x, pitch_input * pitch_speed * delta)
+		#transform.basis = transform.basis.rotated(Vector3.UP, turn_input * turn_speed * delta)
 
-	birdflap.rotation.z = lerp(birdflap.rotation.z, turn_input, level_speed * delta)
-	# If on the ground, don't roll the body
-#	if grounded:
-#		$Mesh/Body.rotation.y = 0
-#	else:
-#		birdflap.rotation.y = lerp($Mesh/Body.rotation.y, turn_input, level_speed * delta)
-	# Accelerate/decelerate
-	forward_speed  = lerp(forward_speed, target_speed, delta * acceleration)
-	# Movement is always forward
-	if !is_on_floor():
-		velocity = -transform.basis.z * forward_speed
-		velocity.y -= gravity/2 * delta
-		Stamina.health -= 1
-	else: 
-		velocity = Vector3(0,0,0)
-	velocity.x = direction.x * 1.5
-	velocity.y = direction.y * 3
-	# Handle landing/taking off
-#	if is_on_floor():
-#		if not grounded:
-#			rotation.x = 0
-#		velocity.y -= 1
-#		grounded = true
-#	else:
-#		grounded = false
+		birdflap.rotation.z = lerp(birdflap.rotation.z, turn_input, level_speed * delta)
+		# If on the ground, don't roll the body
+	#	if grounded:
+	#		$Mesh/Body.rotation.y = 0
+	#	else:
+	#		birdflap.rotation.y = lerp($Mesh/Body.rotation.y, turn_input, level_speed * delta)
+		# Accelerate/decelerate
+		forward_speed  = lerp(forward_speed, target_speed, delta * acceleration)
+		# Movement is always forward
+		if !is_on_floor():
+			velocity = -transform.basis.z * forward_speed
+			velocity.y -= gravity/2 * delta
+			Stamina.health -= 1
+		else: 
+			velocity = Vector3(0,0,0)
+		velocity.x = direction.x * 1.5
+		velocity.y = direction.y * 3
+		print('Player Velociy: ',velocity)
+		# Handle landing/taking off
+	#	if is_on_floor():
+	#		if not grounded:
+	#			rotation.x = 0
+	#		velocity.y -= 1
+	#		grounded = true
+	#	else:
+	#		grounded = false
 
-	move_and_slide()
-		# Reset only the pitch (X rotation)
-	var current_rotation = transform.basis
-	var current_euler = current_rotation.get_euler()
-	var target_pitch = initial_rotation.get_euler().x  # Keep the initial pitch
-	# Construct a new Basis with the target pitch and current yaw and roll
-	var new_basis = Basis().rotated(Vector3.RIGHT, target_pitch) * Basis().rotated(Vector3.UP, current_euler.y) * Basis().rotated(Vector3.FORWARD, current_euler.z)
-	transform.basis = current_rotation.slerp(new_basis, rotation_reset_speed * delta)
-	direction.y = 0.0
-	if current_rotation.x == new_basis.x:
-		resetting_rotation = false
+		move_and_slide()
+			# Reset only the pitch (X rotation)
+		var current_rotation = transform.basis
+		var current_euler = current_rotation.get_euler()
+		var target_pitch = initial_rotation.get_euler().x  # Keep the initial pitch
+		# Construct a new Basis with the target pitch and current yaw and roll
+		var new_basis = Basis().rotated(Vector3.RIGHT, target_pitch) * Basis().rotated(Vector3.UP, current_euler.y) * Basis().rotated(Vector3.FORWARD, current_euler.z)
+		transform.basis = current_rotation.slerp(new_basis, rotation_reset_speed * delta)
+		direction.y = 0.0
+		if current_rotation.x == new_basis.x:
+			resetting_rotation = false
 
 func crashPrevent():
 	pass
@@ -136,6 +139,12 @@ func resetRotation():
 func flapwing():
 	print('flapping')
 
+func levelStart():
+	canStart = true
+	
+func levelEnd():
+	canStart = false
+
 func _on_tree_entered():
 	GlobalSignal.Tpose_Left_Signal.connect(turnLeft)
 	GlobalSignal.Tpose_Right_Signal.connect(turnRight)
@@ -144,6 +153,8 @@ func _on_tree_entered():
 	GlobalSignal.FlapWing_Signal.connect(pitchUp)
 	GlobalSignal.Arms_In_Signal.connect(pitchDown)
 	GlobalSignal.Idle_Pose_Signal.connect(resetInput)
+	GlobalSignal.LevelStart.connect(levelStart)
+	GlobalSignal.LevelEnd.connect(levelEnd)
 	#GlobalSignal.NoPose.connect(resetRotation)
 
 func _on_tree_exited():
@@ -155,6 +166,8 @@ func _on_tree_exited():
 	GlobalSignal.FlapWing_Signal.disconnect(pitchUp)
 	GlobalSignal.Arms_In_Signal.disconnect(pitchDown)
 	GlobalSignal.NoPose.disconnect(resetRotation)
+	GlobalSignal.LevelStart.disconnect(levelStart)
+	GlobalSignal.LevelEnd.disconnect(levelEnd)
 
 #func get_input(delta):
 #	# Throttle input
