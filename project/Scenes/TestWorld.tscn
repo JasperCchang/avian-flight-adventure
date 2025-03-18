@@ -137,6 +137,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.3662, 1.6, -93.5859)
 [node name="RainStorm4" parent="Objects_Interatives/Interacives" instance=ExtResource("8_a4hna")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.7276, 1.6, -124.468)
 
+[node name="RainStorm5" parent="Objects_Interatives/Interacives" instance=ExtResource("8_a4hna")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.8944, 1.6, -235.253)
+
+[node name="RainStorm6" parent="Objects_Interatives/Interacives" instance=ExtResource("8_a4hna")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -46.2106, 1.6, -228.27)
+
 [node name="RainStorm2" parent="Objects_Interatives/Interacives" instance=ExtResource("8_a4hna")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.0488, 0.8, -64.3881)
 
@@ -151,6 +157,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.169, 12.0406, -84.5138)
 
 [node name="Boost3" parent="Objects_Interatives/Interacives" instance=ExtResource("8_yuysl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6701, 7.6554, -124.711)
+
+[node name="Boost4" parent="Objects_Interatives/Interacives" instance=ExtResource("8_yuysl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.019, 9.54436, -194.759)
+
+[node name="Boost5" parent="Objects_Interatives/Interacives" instance=ExtResource("8_yuysl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2703, 11.4429, -219.468)
+
+[node name="Boost6" parent="Objects_Interatives/Interacives" instance=ExtResource("8_yuysl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.80598, 11.4429, -251.803)
 
 [node name="Objects" type="Node" parent="Objects_Interatives"]
 
