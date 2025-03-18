@@ -1,0 +1,74 @@
+[gd_scene load_steps=8 format=3 uid="uid://dlabtxdfidcuy"]
+
+[ext_resource type="Material" uid="uid://d3p6peqxilii7" path="res://assets/neon_mat.tres" id="1_0632l"]
+[ext_resource type="Script" path="res://Checkpoint/ArrowAnim.gd" id="2_e6g1l"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ipkwy"]
+material = ExtResource("1_0632l")
+top_radius = 0.0
+bottom_radius = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hbow4"]
+material = ExtResource("1_0632l")
+height = 3.0
+
+[sub_resource type="Animation" id="Animation_akbod"]
+resource_name = "Arrow_anim"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -6.5, 0), Vector3(0, -4, 0), Vector3(0, -6.5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_eoglf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -6.5, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0g6nf"]
+_data = {
+"Arrow_anim": SubResource("Animation_akbod"),
+"RESET": SubResource("Animation_eoglf")
+}
+
+[node name="Arrow" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("CylinderMesh_ipkwy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 2.84217e-14)
+mesh = SubResource("CylinderMesh_hbow4")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Node3D")
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_0g6nf")
+}
+script = ExtResource("2_e6g1l")

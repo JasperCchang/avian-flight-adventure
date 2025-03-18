@@ -75,7 +75,7 @@ func _physics_process(delta):
 			velocity = Vector3(0,0,0)
 		velocity.x = direction.x * 1.5
 		velocity.y = direction.y * 3
-		print('Player Velociy: ',velocity)
+		#print('Player Velociy: ',velocity)
 		# Handle landing/taking off
 	#	if is_on_floor():
 	#		if not grounded:
