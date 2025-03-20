@@ -16,9 +16,10 @@ var throttle_delta:float = 30
 var acceleration:float = 0.2
 
 var rotation_reset_speed: float = 0.75
-var resetting_rotation: bool = false
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+var pitch_up_time : float = 0
 
 # Current speed
 var forward_speed:float = 0
@@ -36,12 +37,18 @@ var max_turn_input: float = 1
 var pitch_input:float = 0
 var max_pitch_input: float = 1
 
+var isPitching : bool = false
+var pitchTime : float = 0
+
 var direction : Vector3
 
 # Store the initial rotation of the bird
 var initial_rotation: Basis
 
 var canStart : bool = false
+
+@export var immortal : bool = false
+#@export var immortal_area
 
 func _ready():
 	# Save the initial rotation of the bird
@@ -70,6 +77,7 @@ func _physics_process(delta):
 		if !is_on_floor():
 			velocity = -transform.basis.z * forward_speed
 			velocity.y -= gravity/2 * delta
+			
 			Stamina.health -= 1
 		else: 
 			velocity = Vector3(0,0,0)
@@ -87,28 +95,34 @@ func _physics_process(delta):
 
 		move_and_slide()
 			# Reset only the pitch (X rotation)
+			
 		var current_rotation = transform.basis
 		var current_euler = current_rotation.get_euler()
 		var target_pitch = initial_rotation.get_euler().x  # Keep the initial pitch
 		# Construct a new Basis with the target pitch and current yaw and roll
 		var new_basis = Basis().rotated(Vector3.RIGHT, target_pitch) * Basis().rotated(Vector3.UP, current_euler.y) * Basis().rotated(Vector3.FORWARD, current_euler.z)
 		transform.basis = current_rotation.slerp(new_basis, rotation_reset_speed * delta)
-		direction.y = 0.0
+		
 		if current_rotation.x == new_basis.x:
-			resetting_rotation = false
+			direction.y = 0.0
+#			resetting_rotation = false
+		if isPitching:
+			pitchTime += delta
+			if pitchTime > 0.75:
+				pitch_input = 0
+				isPitching = false
+		
 
 func crashPrevent():
 	pass
 
 func turnLeft():
-	resetting_rotation = false
 	direction = (transform.basis * Vector3(-1,0,0)).normalized()
 	#print('Signal Recieved, turning left')
 	if forward_speed > 0.5:
 		turn_input += 0.75
 		pitch_input = 0
 func turnRight():
-	resetting_rotation = false
 	direction = (transform.basis * Vector3(1,0,0)).normalized()
 	if forward_speed > 0.5:
 		turn_input -= 0.75
@@ -116,15 +130,20 @@ func turnRight():
 
 func resetInput():
 	turn_input = 0
+	#resetRotation()
 	pitch_input = 0
-	direction = Vector3(0,0,0)
-	resetRotation()
+	direction.x = 0
+	if pitch_up_time >3:
+		pitch_up_time = 0
+	
 
-func pitchUp():
+func pitchUp():	
 	if Stamina.get_health() > 0 :
 		direction = (transform.basis * Vector3(0,1,0)).normalized()
 		pitch_input += 0.5
 		turn_input = 0
+		isPitching = true
+		pitchTime = 0
 	else:
 		return
 
@@ -132,9 +151,6 @@ func pitchDown():
 	direction = (transform.basis * Vector3(0,-1,0)).normalized()
 	pitch_input -= 0.5
 	turn_input = 0
-
-func resetRotation():
-	resetting_rotation = true
 
 func flapwing():
 	print('flapping')
@@ -152,7 +168,7 @@ func _on_tree_entered():
 	GlobalSignal.Arms_Up_Signal.connect(pitchUp)
 	GlobalSignal.FlapWing_Signal.connect(pitchUp)
 	GlobalSignal.Arms_In_Signal.connect(pitchDown)
-	GlobalSignal.Idle_Pose_Signal.connect(resetInput)
+	#GlobalSignal.Idle_Pose_Signal.connect(resetInput)
 	GlobalSignal.LevelStart.connect(levelStart)
 	GlobalSignal.LevelEnd.connect(levelEnd)
 	#GlobalSignal.NoPose.connect(resetRotation)
@@ -165,7 +181,7 @@ func _on_tree_exited():
 	GlobalSignal.Arms_Up_Signal.disconnect(pitchUp)
 	GlobalSignal.FlapWing_Signal.disconnect(pitchUp)
 	GlobalSignal.Arms_In_Signal.disconnect(pitchDown)
-	GlobalSignal.NoPose.disconnect(resetRotation)
+	#GlobalSignal.NoPose.disconnect(resetRotation)
 	GlobalSignal.LevelStart.disconnect(levelStart)
 	GlobalSignal.LevelEnd.disconnect(levelEnd)
 

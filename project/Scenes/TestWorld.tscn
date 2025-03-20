@@ -1,15 +1,18 @@
-[gd_scene load_steps=19 format=3 uid="uid://pyeuiba12nma"]
+[gd_scene load_steps=22 format=3 uid="uid://pyeuiba12nma"]
 
 [ext_resource type="Script" path="res://mediapipe.gd" id="1_piueh"]
 [ext_resource type="Script" path="res://Scenes/GameControl.gd" id="1_qsnt4"]
-[ext_resource type="PackedScene" uid="uid://cb7kp4qxvmo2p" path="res://Scenes/lowpoly_island.tscn" id="2_rjukv"]
 [ext_resource type="PackedScene" uid="uid://54we5y8kop58" path="res://Player/player.tscn" id="3_b1hu7"]
+[ext_resource type="PackedScene" uid="uid://xayts1h1fg0e" path="res://Scenes/Prefabs/sea.tscn" id="4_jbt74"]
 [ext_resource type="Script" path="res://Scenes/endingPad.gd" id="5_46mr6"]
+[ext_resource type="PackedScene" uid="uid://ctwdeej5i0w6a" path="res://Scenes/Prefabs/island.tscn" id="5_kxvku"]
 [ext_resource type="PackedScene" uid="uid://cu3btbcxht7ye" path="res://ui/game_ui/game_ui.tscn" id="6_idfpr"]
 [ext_resource type="PackedScene" uid="uid://br6dpnjm2q2gt" path="res://Checkpoint/CircleParticles.tscn" id="7_3a77m"]
 [ext_resource type="PackedScene" uid="uid://cad5fq2wv11v" path="res://weather/ThunderStorm.tscn" id="8_a4hna"]
 [ext_resource type="PackedScene" uid="uid://dye7me70q7oij" path="res://Interactives/Boost.tscn" id="8_yuysl"]
 [ext_resource type="PackedScene" uid="uid://dlabtxdfidcuy" path="res://Checkpoint/Arrow.tscn" id="9_fa5g1"]
+[ext_resource type="PackedScene" uid="uid://c6ytk1ewujl5j" path="res://ui/Instructions/instrucion_trigger_area.tscn" id="12_gwfbh"]
+[ext_resource type="Texture2D" uid="uid://ry8t4c00sc44" path="res://ui/Instructions/Image/275207.png" id="13_jtu8w"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jhkty"]
 sky_top_color = Color(0.243137, 0.431373, 0.792157, 1)
@@ -88,11 +91,38 @@ stretch_mode = 5
 
 [node name="CameraTimer" type="Timer" parent="Mediapipe"]
 
-[node name="lowpoly_island" parent="." instance=ExtResource("2_rjukv")]
-transform = Transform3D(9, 0, 0, 0, 9, 0, 0, 0, 9, 0, 0, 0)
-
 [node name="Player" parent="." instance=ExtResource("3_b1hu7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 50)
+
+[node name="Island" type="Node3D" parent="."]
+
+[node name="SeaGrid" type="Node3D" parent="Island"]
+
+[node name="Sea" parent="Island/SeaGrid" instance=ExtResource("4_jbt74")]
+transform = Transform3D(65, 0, 0, 0, -2.84124e-06, 65, 0, -65, -2.84124e-06, 0, 0, 0)
+
+[node name="Sea2" parent="Island/SeaGrid" instance=ExtResource("4_jbt74")]
+transform = Transform3D(65, 0, 0, 0, -2.84124e-06, 65, 0, -65, -2.84124e-06, 0, 0, -125)
+
+[node name="Sea3" parent="Island/SeaGrid" instance=ExtResource("4_jbt74")]
+transform = Transform3D(65, 0, 0, 0, -2.84124e-06, 65, 0, -65, -2.84124e-06, 0, 0, -250)
+
+[node name="Sea4" parent="Island/SeaGrid" instance=ExtResource("4_jbt74")]
+transform = Transform3D(65, 0, 0, 0, -2.84124e-06, 65, 0, -65, -2.84124e-06, 0, 0, -375)
+
+[node name="Sea5" parent="Island/SeaGrid" instance=ExtResource("4_jbt74")]
+transform = Transform3D(65, 0, 0, 0, -2.84124e-06, 65, 0, -65, -2.84124e-06, 0, 0, -500)
+
+[node name="LandScape" type="Node3D" parent="Island"]
+
+[node name="Island" parent="Island/LandScape" instance=ExtResource("5_kxvku")]
+transform = Transform3D(0.09, 0, 0, 0, 0.09, 0, 0, 0, 0.09, 0, -0.724098, -129.765)
+
+[node name="Island2" parent="Island/LandScape" instance=ExtResource("5_kxvku")]
+transform = Transform3D(0.09, 0, 0, 0, 0.09, 0, 0, 0, 0.09, -35.7201, -0.724098, -287.663)
+
+[node name="Island3" parent="Island/LandScape" instance=ExtResource("5_kxvku")]
+transform = Transform3D(0.09, 0, 0, 0, 0.09, 0, 0, 0, 0.09, -0.205383, -0.724098, -417.86)
 
 [node name="startingPad" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 50)
@@ -104,7 +134,7 @@ mesh = SubResource("BoxMesh_pp24y")
 shape = SubResource("ConcavePolygonShape3D_fvfgl")
 
 [node name="endingPad" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -292.555)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -416.519)
 mesh = SubResource("BoxMesh_pp24y")
 script = ExtResource("5_46mr6")
 
@@ -117,19 +147,21 @@ shape = SubResource("ConcavePolygonShape3D_fvfgl")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.39475, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="endingPad/ending_area"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 3.7541, 0)
 shape = SubResource("CylinderShape3D_bgs1o")
 
-[node name="CheckPointController" type="Node" parent="."]
+[node name="CheckPointController" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -128.7)
 
 [node name="CheckPoint 1" parent="CheckPointController" instance=ExtResource("7_3a77m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0, -158)
 
 [node name="CheckpointVFX" parent="CheckPointController" instance=ExtResource("7_3a77m")]
 
-[node name="Objects_Interatives" type="Node" parent="."]
+[node name="Objects_Interatives" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -128.7)
 
-[node name="Interacives" type="Node" parent="Objects_Interatives"]
+[node name="Interacives" type="Node3D" parent="Objects_Interatives"]
 
 [node name="RainStorm3" parent="Objects_Interatives/Interacives" instance=ExtResource("8_a4hna")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.3662, 1.6, -93.5859)
@@ -167,12 +199,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2703, 11.4429, -219.468)
 [node name="Boost6" parent="Objects_Interatives/Interacives" instance=ExtResource("8_yuysl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.80598, 11.4429, -251.803)
 
-[node name="Objects" type="Node" parent="Objects_Interatives"]
+[node name="Objects" type="Node3D" parent="Objects_Interatives"]
 
 [node name="Arrow" parent="Objects_Interatives/Objects" instance=ExtResource("9_fa5g1")]
 transform = Transform3D(4.565, 0, 0, 0, -4.565, 6.89296e-07, 0, -6.89296e-07, -4.565, 0, 18.7669, -292.329)
 
 [node name="Game_UI" parent="." instance=ExtResource("6_idfpr")]
+
+[node name="InstrucionTriggerArea" parent="." instance=ExtResource("12_gwfbh")]
+image = ExtResource("13_jtu8w")
+title = "Boost"
+content = "Player will get a speed boost when travel through "
+
+[node name="Boost5" parent="InstrucionTriggerArea" instance=ExtResource("8_yuysl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.65558, 36.9666)
+
+[node name="Boost7" parent="InstrucionTriggerArea" instance=ExtResource("8_yuysl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.71605, 22.1709)
+
+[node name="Boost9" parent="InstrucionTriggerArea" instance=ExtResource("8_yuysl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.36611, 7.03261)
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

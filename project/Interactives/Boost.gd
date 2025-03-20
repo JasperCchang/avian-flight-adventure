@@ -15,11 +15,11 @@ func _process(delta):
 	
 	if isBoosting:
 		#var Camera : Camera3D = player.get_node('BirdModel/Camera3D')
-		#print('Player Velociy: ',player.velocity)
+		print('Player Velociy: ',player.velocity)
 		boost_int_time += delta
 		player.throttle_delta = 70
-		player.max_flight_speed = 4
-		player.acceleration = 30
+		player.max_flight_speed = 4.5
+		player.acceleration = 50
 		#Camera.position_offset = Vector3(0, 2, 9)
 		if boost_int_time > boost_duration:
 			player.throttle_delta = 30
