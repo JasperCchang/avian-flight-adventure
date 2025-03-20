@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch50hjaqhgphr"]
+
+[ext_resource type="PackedScene" uid="uid://ca47xpg2s8de8" path="res://assets/3D models/fbx/world_map_asia&russia01.fbx" id="1_2ilqw"]
+
+[node name="world_map_asia&russia01" instance=ExtResource("1_2ilqw")]
+
+[node name="asia&eu&Africa" parent="RootNode" index="0"]
+transform = Transform3D(13.0532, 0, 0, 0, -1.55607e-06, 13.0532, 0, -13.0532, -1.55607e-06, 7.33744, 0, -3.21283)

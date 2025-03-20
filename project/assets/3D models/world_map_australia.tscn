@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgjss0a76bgkt"]
+
+[ext_resource type="PackedScene" uid="uid://cgguo15gexi0u" path="res://assets/3D models/fbx/world_map_Australia.fbx" id="1_kmctd"]
+
+[node name="world_map_Australia" instance=ExtResource("1_kmctd")]
+
+[node name="Australia" parent="RootNode" index="0"]
+transform = Transform3D(15.1416, 0, 0, 0, 9.02509e-07, 15.1416, 0, -15.1416, 9.02509e-07, 0.0526624, 0.709117, -0.0578151)

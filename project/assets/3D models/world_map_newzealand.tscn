@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dydo2vjgulb2p"]
+
+[ext_resource type="PackedScene" uid="uid://c5luhgb21nh1g" path="res://assets/3D models/fbx/world_map_newzealand.fbx" id="1_vg41f"]
+
+[node name="world_map_newzealand" instance=ExtResource("1_vg41f")]
+
+[node name="NewZealand" parent="RootNode" index="0"]
+transform = Transform3D(19.0368, 0, 0, 0, -2.26937e-06, 19.0368, 0, -19.0368, -2.26937e-06, -0.00837183, -0.163513, -0.00921581)

@@ -1,0 +1,33 @@
+[gd_scene load_steps=8 format=3 uid="uid://cjr02w5si75wl"]
+
+[ext_resource type="PackedScene" uid="uid://ch50hjaqhgphr" path="res://assets/3D models/world_map_asia.tscn" id="1_pcnuj"]
+[ext_resource type="PackedScene" uid="uid://dgjss0a76bgkt" path="res://assets/3D models/world_map_australia.tscn" id="2_5dhg6"]
+[ext_resource type="PackedScene" uid="uid://bxtx8sh15ri2p" path="res://assets/3D models/world_map_indonesia.tscn" id="3_jjc0g"]
+[ext_resource type="PackedScene" uid="uid://boxc0lisp6e63" path="res://assets/3D models/world_map_japan.tscn" id="4_kv1gs"]
+[ext_resource type="PackedScene" uid="uid://dydo2vjgulb2p" path="res://assets/3D models/world_map_newzealand.tscn" id="5_xmiro"]
+[ext_resource type="PackedScene" uid="uid://by1t4q7xe2gxt" path="res://assets/3D models/world_map_phillippines.tscn" id="6_0vxmh"]
+[ext_resource type="PackedScene" uid="uid://dsj8gn6l43bci" path="res://assets/3D models/world_map_taiwan.tscn" id="7_d6e5m"]
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.64789)
+
+[node name="world_map_asia&russia01" parent="." instance=ExtResource("1_pcnuj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0486507, 0, 5.91861)
+
+[node name="world_map_Australia" parent="." instance=ExtResource("2_5dhg6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.14994, -0.748664, 14.0253)
+
+[node name="world_map_indonesia" parent="." instance=ExtResource("3_jjc0g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.00949, 0, 10.9186)
+
+[node name="world_map_japan" parent="." instance=ExtResource("4_kv1gs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.00949, 0, 4.91861)
+
+[node name="world_map_newzealand" parent="." instance=ExtResource("5_xmiro")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8467, 0, 16.0683)
+
+[node name="world_map_phillippines" parent="." instance=ExtResource("6_0vxmh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.71202, 0, 8.92592)
+
+[node name="world_map_taiwan" parent="." instance=ExtResource("7_d6e5m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.95929, 0, 6.81822)
