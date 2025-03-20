@@ -103,12 +103,13 @@ func _physics_process(delta):
 		var new_basis = Basis().rotated(Vector3.RIGHT, target_pitch) * Basis().rotated(Vector3.UP, current_euler.y) * Basis().rotated(Vector3.FORWARD, current_euler.z)
 		transform.basis = current_rotation.slerp(new_basis, rotation_reset_speed * delta)
 		
-		if current_rotation.x == new_basis.x:
+		if current_rotation.x == initial_rotation.x:
 			direction.y = 0.0
+			pass
 #			resetting_rotation = false
 		if isPitching:
 			pitchTime += delta
-			if pitchTime > 0.75:
+			if pitchTime > 0.5:
 				pitch_input = 0
 				isPitching = false
 		
@@ -129,13 +130,10 @@ func turnRight():
 		pitch_input = 0
 
 func resetInput():
-	turn_input = 0
-	#resetRotation()
-	pitch_input = 0
-	direction.x = 0
-	if pitch_up_time >3:
-		pitch_up_time = 0
-	
+	if !isPitching:
+		turn_input = 0
+		pitch_input = 0
+		direction.x = 0
 
 func pitchUp():	
 	if Stamina.get_health() > 0 :
@@ -149,6 +147,8 @@ func pitchUp():
 
 func pitchDown():
 	direction = (transform.basis * Vector3(0,-1,0)).normalized()
+	isPitching = true
+	pitchTime = 0
 	pitch_input -= 0.5
 	turn_input = 0
 

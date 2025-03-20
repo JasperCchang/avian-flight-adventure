@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://pyeuiba12nma"]
+[gd_scene load_steps=24 format=3 uid="uid://pyeuiba12nma"]
 
 [ext_resource type="Script" path="res://mediapipe.gd" id="1_piueh"]
 [ext_resource type="Script" path="res://Scenes/GameControl.gd" id="1_qsnt4"]
@@ -11,7 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://cad5fq2wv11v" path="res://weather/ThunderStorm.tscn" id="8_a4hna"]
 [ext_resource type="PackedScene" uid="uid://dye7me70q7oij" path="res://Interactives/Boost.tscn" id="8_yuysl"]
 [ext_resource type="PackedScene" uid="uid://dlabtxdfidcuy" path="res://Checkpoint/Arrow.tscn" id="9_fa5g1"]
+[ext_resource type="Texture2D" uid="uid://bftpc8vb6k8in" path="res://assets/ui_materials/Heart.png" id="12_6a2qt"]
 [ext_resource type="PackedScene" uid="uid://c6ytk1ewujl5j" path="res://ui/Instructions/instrucion_trigger_area.tscn" id="12_gwfbh"]
+[ext_resource type="Texture2D" uid="uid://bafxdxj1k7i01" path="res://ui/Instructions/Image/3937493.png" id="13_0kose"]
 [ext_resource type="Texture2D" uid="uid://ry8t4c00sc44" path="res://ui/Instructions/Image/275207.png" id="13_jtu8w"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jhkty"]
@@ -29,8 +31,6 @@ tonemap_mode = 2
 glow_enabled = true
 fog_light_energy = 0.0
 
-[sub_resource type="ImageTexture" id="ImageTexture_wdm2r"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pojfr"]
 albedo_color = Color(0.32549, 0.486275, 0.129412, 1)
 
@@ -45,6 +45,8 @@ data = PackedVector3Array(-1.5, 0.5, 1.5, 1.5, 0.5, 1.5, -1.5, -0.5, 1.5, 1.5, 0
 height = 6.202
 radius = 5.542
 
+[sub_resource type="ImageTexture" id="ImageTexture_wdm2r"]
+
 [node name="Level1" type="Node3D" node_paths=PackedStringArray("player", "ui", "starting_point", "ending_point")]
 script = ExtResource("1_qsnt4")
 player = NodePath("Player")
@@ -52,47 +54,14 @@ ui = NodePath("Game_UI")
 starting_point = NodePath("startingPad")
 ending_point = NodePath("endingPad")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="Env" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
 environment = SubResource("Environment_0r6yg")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
+transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
-
-[node name="Mediapipe" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_piueh")
-
-[node name="Image" type="TextureRect" parent="Mediapipe"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 220.0
-offset_top = 69.0
-offset_right = 575.0
-offset_bottom = 324.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource("ImageTexture_wdm2r")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="PermissionDialog" type="AcceptDialog" parent="Mediapipe"]
-
-[node name="CameraTimer" type="Timer" parent="Mediapipe"]
-
-[node name="Player" parent="." instance=ExtResource("3_b1hu7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 50)
 
 [node name="Island" type="Node3D" parent="."]
 
@@ -123,6 +92,9 @@ transform = Transform3D(0.09, 0, 0, 0, 0.09, 0, 0, 0, 0.09, -35.7201, -0.724098,
 
 [node name="Island3" parent="Island/LandScape" instance=ExtResource("5_kxvku")]
 transform = Transform3D(0.09, 0, 0, 0, 0.09, 0, 0, 0, 0.09, -0.205383, -0.724098, -417.86)
+
+[node name="Player" parent="." instance=ExtResource("3_b1hu7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 50)
 
 [node name="startingPad" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 50)
@@ -204,23 +176,80 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.80598, 11.4429, -251.803)
 [node name="Arrow" parent="Objects_Interatives/Objects" instance=ExtResource("9_fa5g1")]
 transform = Transform3D(4.565, 0, 0, 0, -4.565, 6.89296e-07, 0, -6.89296e-07, -4.565, 0, 18.7669, -292.329)
 
-[node name="Game_UI" parent="." instance=ExtResource("6_idfpr")]
+[node name="Instrucions" type="Node3D" parent="."]
 
-[node name="InstrucionTriggerArea" parent="." instance=ExtResource("12_gwfbh")]
+[node name="InstrucionTriggerArea" parent="Instrucions" instance=ExtResource("12_gwfbh")]
 image = ExtResource("13_jtu8w")
 title = "Boost"
 content = "Player will get a speed boost when travel through "
 
-[node name="Boost5" parent="InstrucionTriggerArea" instance=ExtResource("8_yuysl")]
+[node name="Boost5" parent="Instrucions/InstrucionTriggerArea" instance=ExtResource("8_yuysl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.65558, 36.9666)
 
-[node name="Boost7" parent="InstrucionTriggerArea" instance=ExtResource("8_yuysl")]
+[node name="Boost7" parent="Instrucions/InstrucionTriggerArea" instance=ExtResource("8_yuysl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.71605, 22.1709)
 
-[node name="Boost9" parent="InstrucionTriggerArea" instance=ExtResource("8_yuysl")]
+[node name="Boost9" parent="Instrucions/InstrucionTriggerArea" instance=ExtResource("8_yuysl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.36611, 7.03261)
+
+[node name="InstrucionTriggerArea2" parent="Instrucions" instance=ExtResource("12_gwfbh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50)
+image = ExtResource("12_6a2qt")
+title = "Stamina"
+content = "Stamina will reduce during flight. Land on surface to regenerate."
+
+[node name="Island" parent="Instrucions/InstrucionTriggerArea2" instance=ExtResource("5_kxvku")]
+transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, -0.795, 18.9614)
+
+[node name="CheckpointVFX" parent="Instrucions/InstrucionTriggerArea2" instance=ExtResource("7_3a77m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19.2327)
+
+[node name="InstrucionTriggerArea3" parent="Instrucions" instance=ExtResource("12_gwfbh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -96.2318)
+image = ExtResource("13_0kose")
+title = "Rainstorm"
+content = "Going through rainstorm will reduce stamina, avoid them."
+
+[node name="RainStorm" parent="Instrucions/InstrucionTriggerArea3" instance=ExtResource("8_a4hna")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16.4739)
+
+[node name="Elements" type="Node" parent="."]
+
+[node name="Mediapipe" type="Control" parent="Elements"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_piueh")
+
+[node name="Image" type="TextureRect" parent="Elements/Mediapipe"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 220.0
+offset_top = 69.0
+offset_right = 575.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = SubResource("ImageTexture_wdm2r")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PermissionDialog" type="AcceptDialog" parent="Elements/Mediapipe"]
+
+[node name="CameraTimer" type="Timer" parent="Elements/Mediapipe"]
+
+[node name="Game_UI" parent="." instance=ExtResource("6_idfpr")]
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
-[connection signal="timeout" from="Mediapipe/CameraTimer" to="Mediapipe" method="_on_camera_timer_timeout" flags=18]
 [connection signal="body_entered" from="endingPad/ending_area" to="endingPad" method="_on_ending_area_body_entered"]
+[connection signal="timeout" from="Elements/Mediapipe/CameraTimer" to="Elements/Mediapipe" method="_on_camera_timer_timeout" flags=18]

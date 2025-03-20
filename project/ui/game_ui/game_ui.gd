@@ -1,6 +1,6 @@
 extends Control
 
-@onready var game_system = get_parent().get_child(0)
+var game_system
 @onready var progress_bar = $Panel/ProgressBar
 @onready var h_slider = $Panel/HSlider
 @onready var health = $Panel/VSlider
