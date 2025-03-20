@@ -11,11 +11,5 @@ func _process(delta):
 	pass
 
 
-func _on_start_button_down():
-	get_tree().change_scene_to_file("res://ui/level_selection_ui/level_selection_ui.tscn")
-
-func _on_setting_button_down():
-	get_tree().change_scene_to_file("res://ui/setting_ui/setting_ui.tscn")
-
 func _on_back_button_down():
-	get_tree().quit()
+	get_tree().change_scene_to_file("res://ui/menu_ui/menu_ui.tscn")

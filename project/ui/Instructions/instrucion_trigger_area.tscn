@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://c6ytk1ewujl5j"]
 
 [ext_resource type="Script" path="res://ui/Instructions/InstrucionTriggerArea.gd" id="1_pqddd"]
-[ext_resource type="Texture2D" uid="uid://6vjlvs51bujx" path="res://images.jpg" id="2_rh5pg"]
+[ext_resource type="Texture2D" uid="uid://cin58caqh42gx" path="res://images.jpg" id="2_rh5pg"]
 [ext_resource type="Script" path="res://ui/Instructions/InstructionUIanim.gd" id="3_c030v"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qgctb"]

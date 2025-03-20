@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dkwf25agm1kpk"]
 
 [ext_resource type="Script" path="res://ui/Instructions/SetInstructionUI.gd" id="1_npilo"]
-[ext_resource type="Texture2D" uid="uid://6vjlvs51bujx" path="res://images.jpg" id="2_ryg57"]
+[ext_resource type="Texture2D" uid="uid://cin58caqh42gx" path="res://images.jpg" id="2_ryg57"]
 [ext_resource type="Script" path="res://ui/Instructions/InstructionUIanim.gd" id="3_3ax4o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sunpw"]

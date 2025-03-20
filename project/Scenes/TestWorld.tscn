@@ -11,10 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://cad5fq2wv11v" path="res://weather/ThunderStorm.tscn" id="8_a4hna"]
 [ext_resource type="PackedScene" uid="uid://dye7me70q7oij" path="res://Interactives/Boost.tscn" id="8_yuysl"]
 [ext_resource type="PackedScene" uid="uid://dlabtxdfidcuy" path="res://Checkpoint/Arrow.tscn" id="9_fa5g1"]
-[ext_resource type="Texture2D" uid="uid://bftpc8vb6k8in" path="res://assets/ui_materials/Heart.png" id="12_6a2qt"]
+[ext_resource type="Texture2D" uid="uid://dnoaue5cseetl" path="res://assets/ui_materials/Heart.png" id="12_6a2qt"]
 [ext_resource type="PackedScene" uid="uid://c6ytk1ewujl5j" path="res://ui/Instructions/instrucion_trigger_area.tscn" id="12_gwfbh"]
-[ext_resource type="Texture2D" uid="uid://bafxdxj1k7i01" path="res://ui/Instructions/Image/3937493.png" id="13_0kose"]
-[ext_resource type="Texture2D" uid="uid://ry8t4c00sc44" path="res://ui/Instructions/Image/275207.png" id="13_jtu8w"]
+[ext_resource type="Texture2D" uid="uid://jocui20cji74" path="res://ui/Instructions/Image/3937493.png" id="13_0kose"]
+[ext_resource type="Texture2D" uid="uid://bqn484axoio4p" path="res://ui/Instructions/Image/275207.png" id="13_jtu8w"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jhkty"]
 sky_top_color = Color(0.243137, 0.431373, 0.792157, 1)
