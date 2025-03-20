@@ -35,7 +35,7 @@ var grounded = false
 var turn_input:float = 0
 var max_turn_input: float = 1
 var pitch_input:float = 0
-var max_pitch_input: float = 1
+var max_pitch_input: float = 0.5
 
 var isPitching : bool = false
 var pitchTime : float = 0
@@ -82,7 +82,7 @@ func _physics_process(delta):
 		else: 
 			velocity = Vector3(0,0,0)
 		velocity.x = direction.x * 1.5
-		velocity.y = direction.y * 3
+		velocity.y = direction.y * 1.5
 		#print('Player Velociy: ',velocity)
 		# Handle landing/taking off
 	#	if is_on_floor():
@@ -95,24 +95,21 @@ func _physics_process(delta):
 
 		move_and_slide()
 			# Reset only the pitch (X rotation)
-			
-		var current_rotation = transform.basis
-		var current_euler = current_rotation.get_euler()
-		var target_pitch = initial_rotation.get_euler().x  # Keep the initial pitch
-		# Construct a new Basis with the target pitch and current yaw and roll
-		var new_basis = Basis().rotated(Vector3.RIGHT, target_pitch) * Basis().rotated(Vector3.UP, current_euler.y) * Basis().rotated(Vector3.FORWARD, current_euler.z)
-		transform.basis = current_rotation.slerp(new_basis, rotation_reset_speed * delta)
-		
-		if current_rotation.x == initial_rotation.x:
-			direction.y = 0.0
-			pass
-#			resetting_rotation = false
+
 		if isPitching:
 			pitchTime += delta
 			if pitchTime > 0.5:
 				pitch_input = 0
+				direction.y = 0.0
 				isPitching = false
-		
+		elif !isPitching && pitchTime > 0.5:
+			var current_rotation = transform.basis
+			var current_euler = current_rotation.get_euler()
+			var target_pitch = initial_rotation.get_euler().x  # Keep the initial pitch
+			# Construct a new Basis with the target pitch and current yaw and roll
+			var new_basis = Basis().rotated(Vector3.RIGHT, target_pitch) * Basis().rotated(Vector3.UP, current_euler.y) * Basis().rotated(Vector3.FORWARD, current_euler.z)
+			transform.basis = current_rotation.slerp(new_basis, rotation_reset_speed * delta)
+
 
 func crashPrevent():
 	pass
@@ -135,7 +132,7 @@ func resetInput():
 		pitch_input = 0
 		direction.x = 0
 
-func pitchUp():	
+func pitchUp():
 	if Stamina.get_health() > 0 :
 		direction = (transform.basis * Vector3(0,1,0)).normalized()
 		pitch_input += 0.5
@@ -147,10 +144,9 @@ func pitchUp():
 
 func pitchDown():
 	direction = (transform.basis * Vector3(0,-1,0)).normalized()
+	turn_input = 0
 	isPitching = true
 	pitchTime = 0
-	pitch_input -= 0.5
-	turn_input = 0
 
 func flapwing():
 	print('flapping')
@@ -168,7 +164,7 @@ func _on_tree_entered():
 	GlobalSignal.Arms_Up_Signal.connect(pitchUp)
 	GlobalSignal.FlapWing_Signal.connect(pitchUp)
 	GlobalSignal.Arms_In_Signal.connect(pitchDown)
-	#GlobalSignal.Idle_Pose_Signal.connect(resetInput)
+	GlobalSignal.Idle_Pose_Signal.connect(resetInput)
 	GlobalSignal.LevelStart.connect(levelStart)
 	GlobalSignal.LevelEnd.connect(levelEnd)
 	#GlobalSignal.NoPose.connect(resetRotation)

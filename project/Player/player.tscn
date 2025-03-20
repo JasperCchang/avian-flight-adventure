@@ -376,7 +376,7 @@ script = ExtResource("3_ihvg2")
 
 [node name="Camera3D" type="Camera3D" parent="BirdModel"]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
-fov = 49.1
+fov = 50.0
 far = 150.0
 script = ExtResource("4_dm88h")
 target = NodePath("../..")
