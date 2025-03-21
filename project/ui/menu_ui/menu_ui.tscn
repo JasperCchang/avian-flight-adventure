@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsjj1xm24q1ug"]
+[gd_scene load_steps=5 format=3 uid="uid://dsjj1xm24q1ug"]
 
 [ext_resource type="Script" path="res://ui/menu_ui/menu_ui.gd" id="1_7i0oa"]
 [ext_resource type="Texture2D" uid="uid://cnmhw5obqd0a4" path="res://assets/ui_materials/Group 36.png" id="1_mlkt0"]
+[ext_resource type="PackedScene" uid="uid://hnxw58jxqxda" path="res://ui/setting_ui/setting_ui.tscn" id="3_dvvsn"]
+[ext_resource type="PackedScene" uid="uid://llr0p0l6ici2" path="res://ui/level_selection_ui/level_selection_ui.tscn" id="4_foh8r"]
 
 [node name="Menu_UI" type="Control"]
 layout_mode = 3
@@ -21,29 +23,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -31.5
-offset_top = -50.5
-offset_right = 31.5
-offset_bottom = 50.5
-grow_horizontal = 2
-grow_vertical = 2
+[node name="menu" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = -300.0
+offset_top = 20.0
+offset_right = -44.0
+offset_bottom = 173.0
+theme_override_constants/separation = 30
 
-[node name="start" type="Button" parent="Panel/VBoxContainer"]
+[node name="start" type="Button" parent="Panel/menu"]
 layout_mode = 2
 text = "Start"
 
-[node name="setting" type="Button" parent="Panel/VBoxContainer"]
+[node name="setting" type="Button" parent="Panel/menu"]
 layout_mode = 2
 text = "Setting"
 
-[node name="back" type="Button" parent="Panel/VBoxContainer"]
+[node name="back" type="Button" parent="Panel/menu"]
 layout_mode = 2
 text = "Back"
 
@@ -52,6 +48,21 @@ position = Vector2(576, 212)
 scale = Vector2(2, 2)
 texture = ExtResource("1_mlkt0")
 
-[connection signal="button_down" from="Panel/VBoxContainer/start" to="." method="_on_start_button_down"]
-[connection signal="button_down" from="Panel/VBoxContainer/setting" to="." method="_on_setting_button_down"]
-[connection signal="button_down" from="Panel/VBoxContainer/back" to="." method="_on_back_button_down"]
+[node name="Setting_UI" parent="." instance=ExtResource("3_dvvsn")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1200.0
+offset_top = 20.0
+offset_right = 552.576
+offset_bottom = -56.0
+
+[node name="Level_Selection_UI" parent="." instance=ExtResource("4_foh8r")]
+layout_mode = 1
+offset_top = -700.0
+offset_bottom = -700.0
+
+[connection signal="button_down" from="Panel/menu/start" to="." method="_on_start_button_down"]
+[connection signal="button_down" from="Panel/menu/setting" to="." method="_on_setting_button_down"]
+[connection signal="button_down" from="Panel/menu/back" to="." method="_on_back_button_down"]
